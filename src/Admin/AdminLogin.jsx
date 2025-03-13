@@ -20,7 +20,7 @@ export default function AdminLogin() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/admin/login",
+        "https://doc-hub-b.vercel.app/api/admin/login",
         formData
       );
       localStorage.setItem("adminToken", res.data.token);

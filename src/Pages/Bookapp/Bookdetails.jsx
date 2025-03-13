@@ -16,7 +16,7 @@ export default function Bookdetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/doctors/${id}`) // Fetch doctor details
+      .get(`https://doc-hub-b.vercel.app/api/doctors/${id}`) // Fetch doctor details
       .then((response) => {
         setDoctor(response.data);
         setLoading(false);

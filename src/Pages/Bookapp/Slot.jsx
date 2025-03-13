@@ -133,7 +133,7 @@ const Slot = ({ doctor }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/slots/book-slot",
+        "https://doc-hub-b.vercel.app/api/slots/book-slot",
         {
           ...formData,
           doctorName: formData.doctor, //  Send doctor name, backend will convert to ObjectId

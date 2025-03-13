@@ -51,7 +51,7 @@ export default function AdminDashboard() {
 
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/admin/dashboard",
+          "https://doc-hub-b.vercel.app/api/admin/dashboard",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
   const fetchDoctors = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/doctors/getDoctors"
+        "https://doc-hub-b.vercel.app/api/doctors/getDoctors"
       );
       setDoctors(response.data);
     } catch (error) {
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
     if (!doctorToDelete) return;
     try {
       await axios.delete(
-        `http://localhost:5000/api/doctors/deleteDoctor/${doctorToDelete}`
+        `https://doc-hub-b.vercel.app/api/doctors/deleteDoctor/${doctorToDelete}`
       );
       toast.success("Doctor deleted!");
       fetchDoctors();
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
   // const handleDelete = async (id) => {
   //   try {
   //     await axios.delete(
-  //       `http://localhost:5000/api/doctors/deleteDoctor/${id}`
+  //       `https://doc-hub-b.vercel.app/api/doctors/deleteDoctor/${id}`
   //     );
   //     toast.success("Doctor deleted!");
   //     fetchDoctors();
@@ -138,13 +138,13 @@ export default function AdminDashboard() {
     try {
       if (editingId) {
         await axios.put(
-          `http://localhost:5000/api/doctors/updateDoctor/${editingId}`,
+          `https://doc-hub-b.vercel.app/api/doctors/updateDoctor/${editingId}`,
           formDataToSend
         );
         toast.success("Doctor updated successfully!");
       } else {
         await axios.post(
-          "http://localhost:5000/api/doctors/addDoctor",
+          "https://doc-hub-b.vercel.app/api/doctors/addDoctor",
           formDataToSend
         );
         toast.success("Doctor added successfully!");

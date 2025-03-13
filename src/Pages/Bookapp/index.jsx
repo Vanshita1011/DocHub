@@ -175,7 +175,7 @@ export default function Bookapp() {
     if (validateForm()) {
       try {
         console.log("Form Data:", formData); // Log form data
-        await axios.post("http://localhost:5000/api/appointments", {
+        await axios.post("https://doc-hub-b.vercel.app/api/appointments", {
           userEmail,
           name: formData.name,
           phone: formData.phone,

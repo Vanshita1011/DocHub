@@ -61,7 +61,7 @@ const DoctorLogin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/doctors/login",
+        "https://doc-hub-b.vercel.app/api/doctors/login",
         formData
       );
 

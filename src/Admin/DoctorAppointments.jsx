@@ -14,7 +14,7 @@ export default function DoctorAppointments() {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/appointments/doctor/${doctorId}`
+          `https://doc-hub-b.vercel.app/api/appointments/doctor/${doctorId}`
         );
         const updatedAppointments = response.data.map((appointment) => {
           const appointmentDateTime = new Date(
@@ -34,7 +34,7 @@ export default function DoctorAppointments() {
     const fetchSlots = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/slots/doctor/${doctorId}`
+          `https://doc-hub-b.vercel.app/api/slots/doctor/${doctorId}`
         );
         const updatedSlots = response.data.map((slot) => {
           const slotDateTime = new Date(
