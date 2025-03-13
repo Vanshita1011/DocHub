@@ -48,7 +48,7 @@ export default function Bookapp() {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/doctors/getDoctors"
+          "https://doc-hub-b.vercel.app/api/doctors/getDoctors"
         );
         setDoctorsData(response.data);
         setFilteredDoctors(response.data);
