@@ -1,0 +1,162 @@
+:root {
+  --primary-color: #007c9d;
+  --secondary-color: #028885;
+  --font-color: var(--font-color);
+}
+.text-custom {
+  color: #007c9d !important;
+}
+.text-soft {
+  color: #028885 !important;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: black;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+span {
+  font-weight: bold;
+  font-family: "Jua", Arial, Helvetica;
+  font-size: larger;
+  color: #015c5a;
+}
+.p_bg {
+  position: absolute;
+  margin-top: 270px;
+  right: 805px;
+  width: 600px;
+  height: 300px;
+}
+
+.one_click h2,
+.works h2 {
+  text-align: center;
+  padding-bottom: 30px;
+  padding-top: 50px;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.one_click h3 {
+  color: var(--primary-color);
+}
+.click_abt a {
+  display: inline-block;
+  color: var(--font-color);
+  padding: 12px 15px;
+  border: 1px solid var(--primary-color);
+  background-color: #ffffff;
+  text-decoration: none;
+}
+
+.click_abt a:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.click_abt {
+  margin-top: 40px;
+}
+
+.works {
+  margin-top: 80px;
+  background-color: #f5f8f9;
+  margin-bottom: 40px;
+}
+.works h2 {
+  font-size: 18px;
+}
+.works span {
+  font-size: 30px;
+  font-weight: bold;
+}
+.appoinImg {
+  filter: drop-shadow(0 0 0.75rem rgb(69, 107, 232));
+}
+.eltd-separator ::after {
+  content: "";
+  /* clear: both; */
+  display: table;
+  height: 3px;
+  background-color: var(--secondary-color);
+  width: 70px;
+  margin: 0 auto 4px;
+}
+.eltd-separator h2 {
+  color: var(--primary-color);
+}
+.subTitle4 {
+  color: var(--secondary-color);
+}
+.appointmentSection {
+  margin-top: 80px;
+}
+.appointment-section {
+  background-color: var(--primary-color);
+  box-shadow: 5px 5px 18px 1px black;
+}
+.rowHeader ::after {
+  content: "";
+  clear: both;
+  display: table;
+  height: 3px;
+  background-color: var(--secondary-color);
+  width: 70px;
+  margin: 10px 5px;
+}
+.notification {
+  background-image: url("/public/images/bgn-newsletter-subscribe.jpg");
+  background-size: cover;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+.btnSubscribe {
+  background-color: var(--primary-color);
+  border-radius: 50px;
+  width: fit-content;
+  border: none;
+  display: inline-block;
+  color: white;
+  padding: 12px 15px;
+  text-decoration: none;
+}
+.btnSubscribe:hover {
+  background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .carousel-item h1 {
+    font-size: 1.8rem; /* Medium screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-item h1 {
+    font-size: 1.2rem; /* Small screens */
+  }
+}
+
+@media (max-width: 400px) {
+  .carousel-item h1 {
+    font-size: 1rem !important; /* Extra small screens */
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .appointment-section,
+  .appointmentSection {
+    align-items: center;
+
+    height: 300px !important;
+    margin-top: 30px;
+  }
+}

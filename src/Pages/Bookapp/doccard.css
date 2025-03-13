@@ -1,0 +1,15 @@
+.doccard {
+  box-shadow: -10px 10px 10px -10px rgba(0, 0, 24, 0.5);
+  align-items: center;
+}
+.doccard:hover {
+  /* box-shadow: 1px -10px 10px -10px rgba(0, 0, 24, 0.5);
+  transition-duration: 0.6s;
+  transform: scale(1.1); */
+  transition-duration: 0.6s;
+  transform: scale(1.1);
+}
+.doccard img {
+  height: 250px;
+  width: 250px;
+}

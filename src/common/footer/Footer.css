@@ -1,0 +1,79 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.footer {
+  background-color: black;
+  color: white;
+  justify-content: space-between;
+}
+.footer-logo .logo {
+  width: 180px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.social-icon ul {
+  display: flex;
+  list-style: none;
+  padding-left: 0px;
+}
+
+.social-icon ul li {
+  margin-right: 15px;
+}
+.footer {
+  padding-top: 20px;
+}
+.footer-about-content {
+  margin-bottom: 30px;
+}
+.footer-widget ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.footer-widget ul li a {
+  text-decoration: none;
+  line-height: 2.5rem;
+  color: white;
+}
+.footer-widget ul li a:hover {
+  color: grey;
+}
+.social-icon ul li a:hover {
+  color: grey;
+}
+
+.footer-title {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  color: #007c9d;
+  font-weight: bold;
+}
+.footer-contact-info {
+  font-size: 16px;
+}
+.footer-address {
+  display: flex;
+  gap: 15px;
+}
+.copyright-menu ul {
+  justify-content: flex-end;
+  list-style: none;
+  gap: 20px;
+}
+.copyright-menu ul li a {
+  text-decoration: none;
+  color: white;
+}
+.copyright-menu ul li a:hover {
+  color: grey;
+}
+.policy-menu {
+  display: flex;
+}
+@media (max-width: 767px) {
+  .copyright-menu ul {
+    justify-content: flex-start;
+  }
+}

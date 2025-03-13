@@ -1,0 +1,15 @@
+.servicesec {
+  background-image: linear-gradient(1deg, #007bff, #d2e8ff, #007bff0d);
+}
+.blogheading {
+  font-weight: 900;
+  color: #007c9d;
+}
+.blogtitle {
+  color: #007c9d !important;
+}
+.blogbtn {
+  border: none;
+  color: white;
+  padding: 5px;
+}

@@ -1,0 +1,27 @@
+const symptomToSpecialty = {
+  headache: "Neurologist",
+  fever: "General Physician",
+  "women's health": "Gynecologist",
+  children: "Pediatrician",
+  "skin rash": "Dermatologist",
+  acne: "Dermatologist",
+  "chest pain": "Cardiologist",
+  hypertension: "Cardiologist",
+  "joint pain": "Orthopedic Surgeon",
+  fractures: "Orthopedic Surgeon",
+  diabetes: "Endocrinologist",
+  thyroid: "Endocrinologist",
+  "stomach pain": "Gastroenterologist",
+  "blurry vision": "Ophthalmologist",
+  cataract: "Ophthalmologist",
+  anxiety: "Psychiatrist",
+  depression: "Psychiatrist",
+  stress: "Psychiatrist",
+  asthma: "Pulmonologist",
+  cough: "Pulmonologist",
+  "kidney pain": "Nephrologist",
+  "urinary infection": "Nephrologist",
+  cancer: "Oncologist",
+};
+
+export default symptomToSpecialty;

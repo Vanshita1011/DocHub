@@ -1,0 +1,77 @@
+.search-bar {
+  background-image: linear-gradient(1deg, #007bff, #d2e8ff, #007bff0d);
+  padding: 30px;
+}
+.search-bar h2 {
+  color: #007c9d;
+  font-size: 40px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+.select-field {
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+}
+
+.form h2 {
+  color: #007c9d;
+}
+.book-form {
+  background-color: #007c9d;
+  box-shadow: 0px 0px 0px 3px rgba(1, 1, 1, 0.182);
+}
+.form-label {
+  color: white;
+  font-size: 20px;
+}
+
+.bkbtn {
+  background-color: white;
+  color: #7c7c7c;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.bkbtn:hover {
+  background-color: #006666;
+  color: white;
+}
+.bookapp {
+  padding: 30px;
+}
+
+.section-download {
+  background-image: linear-gradient(1deg, #007bff0d, #d2e8ff, #007bff);
+  padding: 25px 0;
+}
+.dbanner img {
+  width: 380px;
+  height: 450px;
+  max-width: 100%;
+}
+.app-center h2 {
+  font-weight: 800;
+}
+.app-center p {
+  padding: 5px;
+}
+.download-btn a {
+  padding: 12px 35px;
+  border: 1px solid #3c73f2;
+  border-radius: 30px;
+  font-size: 15px;
+  background-color: white;
+  color: #3c73f2;
+  font-weight: 500;
+  text-decoration: none;
+}
+.download-btn a:hover {
+  text-decoration: underline;
+}

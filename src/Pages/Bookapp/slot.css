@@ -1,0 +1,31 @@
+.day-btn,
+.time-btn {
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.day-btn.selected,
+.time-btn.selected {
+  background: #6c63ff;
+  color: white;
+  border: none;
+}
+.day-text,
+.date-text {
+  font-weight: normal;
+  color: black;
+  font-family: Arial, Helvetica,  sans-serif;
+}
+.book-btn {
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+}

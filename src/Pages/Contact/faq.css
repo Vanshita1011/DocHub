@@ -1,0 +1,31 @@
+.faqouter {
+  width: 1320px;
+  max-width: 100%;
+  margin: auto;
+  padding: 5px;
+}
+.faqItems {
+  border: 1px solid rgb(160, 143, 143);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.faqItems h4 {
+  border-radius: 10px;
+  margin: 0px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+.faqItems p {
+  text-align: left;
+  transform: scaleY(0);
+  transition: 0.5s;
+  height: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+.activeAns {
+  height: auto !important;
+  transform: scaleY(1) !important;
+  padding: 10px !important;
+}

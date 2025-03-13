@@ -1,0 +1,65 @@
+.abt h1 {
+  font-size: 50p;
+}
+.abt p {
+  font-size: 25px;
+}
+.about-content-two h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.about-content-two p {
+  line-height: 2rem;
+}
+.about-content-two p span,
+section span {
+  font-weight: bold;
+  color: #007c9d;
+  font-size: 24px;
+  font-family: "Marko One";
+}
+.about-content-two button {
+  background-color: #007c9d;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+.about-content-two button:hover {
+  background-color: #028885;
+  box-shadow: 10px 10px 10px -10px rgba(0, 0, 24, 0.5);
+}
+.functions h2 {
+  padding-bottom: 30px;
+  padding-top: 50px;
+  font-weight: 700;
+}
+.about-us-section {
+  background-color: #f5f8f9;
+}
+.about-us-section h2 {
+  font-weight: 600;
+}
+.heading::after {
+  content: "";
+  clear: both;
+  display: table;
+  height: 3px;
+  width: 70px;
+  background-color: rgba(0, 124, 157, 0.9);
+  margin: 0 auto 4px;
+  margin-top: 4px;
+}
+.abtcard {
+  align-items: center;
+  border: none;
+}
+.card img {
+  width: 100px;
+}
+.card-title {
+  text-align: center;
+}
+.card-text {
+  line-height: 1.8rem;
+}
