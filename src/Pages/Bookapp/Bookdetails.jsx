@@ -8,7 +8,8 @@ import Header from "../../common/Header";
 import Footer from "../../common/footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import Loader from "../../Component/Loader/Loader";
+
+import { BeatLoader } from "react-spinners";
 
 export default function Bookdetails() {
   const { id } = useParams(); // Get doctor ID from the URL
@@ -28,7 +29,10 @@ export default function Bookdetails() {
       });
   }, [id]);
 
-  if (loading) return <Loader />;
+  if (loading)
+    return (
+      <BeatLoader className="d-flex justify-content-center vh-100 align-items-center" />
+    );
   if (!doctor) return <h2>Doctor not found</h2>;
 
   return (
