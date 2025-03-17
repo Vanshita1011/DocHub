@@ -29,58 +29,65 @@ export default function Bookdetails() {
       });
   }, [id]);
 
-  if (loading)
-    return (
-      <BeatLoader
-        color="#6c63ff"
-        className="d-flex justify-content-center vh-100 align-items-center"
-      />
-    );
-  if (!doctor) return <h2>Doctor not found</h2>;
+  // if (loading)
+  //   return (
+  //     <BeatLoader
+  //       color="#6c63ff"
+  //       className="d-flex justify-content-center vh-100 align-items-center"
+  //     />
+  //   );
 
   return (
     <>
       <Header />
-      <Container>
-        <Row className="p-5">
-          <Col lg={6} md={12} sm={12}>
-            <img
-              src={doctor.img}
-              alt={doctor.name}
-              className="mw-100"
-              style={{ backgroundColor: "#6c63ff" }}
-            />
-          </Col>
-          <Col
-            style={{ border: "1px solid rgb(160, 143, 143)" }}
-            lg={6}
-            md={12}
-            sm={12}
-            className="p-5"
-          >
-            <h1
-              className="p-1 fw-bold"
-              style={{ color: "rgba(0, 124, 157, 0.9)" }}
-            >
-              {doctor.name}
-            </h1>
-            <p className="p-1">
-              <strong>Speciality:</strong>
-              {doctor.title}
-            </p>
-            <p className="p-1">
-              <strong>Experience:</strong> {doctor.experience}
-            </p>
-            <strong style={{ padding: "5px" }}>About</strong>
-            <FontAwesomeIcon icon={faCircleInfo} />
-            <p className="p-1">{doctor.about}</p>
-            <p className="p-1">
-              <strong>Appointment fee:</strong> {doctor.fee}
-            </p>
-          </Col>
-        </Row>
-      </Container>
-      <Slot doctor={doctor} />
+      {loading ? (
+        <div className="d-flex justify-content-center vh-100 align-items-center">
+          <BeatLoader color="#6c63ff" />
+        </div>
+      ) : (
+        <>
+          <Container>
+            <Row className="p-5">
+              <Col lg={6} md={12} sm={12}>
+                <img
+                  src={doctor.img}
+                  alt={doctor.name}
+                  className="mw-100"
+                  style={{ backgroundColor: "#6c63ff" }}
+                />
+              </Col>
+              <Col
+                style={{ border: "1px solid rgb(160, 143, 143)" }}
+                lg={6}
+                md={12}
+                sm={12}
+                className="p-5"
+              >
+                <h1
+                  className="p-1 fw-bold"
+                  style={{ color: "rgba(0, 124, 157, 0.9)" }}
+                >
+                  {doctor.name}
+                </h1>
+                <p className="p-1">
+                  <strong>Speciality:</strong>
+                  {doctor.title}
+                </p>
+                <p className="p-1">
+                  <strong>Experience:</strong> {doctor.experience}
+                </p>
+                <strong style={{ padding: "5px" }}>About</strong>
+                <FontAwesomeIcon icon={faCircleInfo} />
+                <p className="p-1">{doctor.about}</p>
+                <p className="p-1">
+                  <strong>Appointment fee:</strong> {doctor.fee}
+                </p>
+              </Col>
+            </Row>
+          </Container>
+          <Slot doctor={doctor} />
+        </>
+      )}
       <Footer />
     </>
   );
