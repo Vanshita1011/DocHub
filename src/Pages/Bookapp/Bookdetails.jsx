@@ -31,7 +31,10 @@ export default function Bookdetails() {
 
   if (loading)
     return (
-      <BeatLoader className="d-flex justify-content-center vh-100 align-items-center" />
+      <BeatLoader
+        color="#6c63ff"
+        className="d-flex justify-content-center vh-100 align-items-center"
+      />
     );
   if (!doctor) return <h2>Doctor not found</h2>;
 
