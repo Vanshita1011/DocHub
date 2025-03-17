@@ -8,6 +8,7 @@ import Header from "../../common/Header";
 import Footer from "../../common/footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../../Component/Loader/Loader";
 
 export default function Bookdetails() {
   const { id } = useParams(); // Get doctor ID from the URL
@@ -27,7 +28,7 @@ export default function Bookdetails() {
       });
   }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) return <Loader />;
   if (!doctor) return <h2>Doctor not found</h2>;
 
   return (
