@@ -13,3 +13,7 @@
   height: 250px;
   width: 250px;
 }
+.rightArrow:hover .fa-arrow-right {
+  transform: translateX(5px);
+  transition: transform 0.3s ease-in-out;
+}

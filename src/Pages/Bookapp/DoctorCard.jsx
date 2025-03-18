@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Card, CardTitle, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./doccard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function DoctorCard({ dItems }) {
   return (
@@ -29,13 +31,17 @@ export default function DoctorCard({ dItems }) {
             <strong>Experience:</strong>
             {dItems.experience}
           </p>
-          <Button>
+          <Button className="rightArrow">
             <Link
               style={{ color: "white", textDecoration: "none" }}
               to={`/book-appointment/${dItems._id}`}
               state={{ doctor: dItems }}
             >
               BookNow
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className="ms-2 fa-arrow-right"
+              />
             </Link>
           </Button>
         </Card.Body>
