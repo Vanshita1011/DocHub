@@ -41,7 +41,10 @@ export default function Bookdetails() {
     <>
       <Header />
       {loading ? (
-        <div className="d-flex justify-content-center vh-100 align-items-center">
+        <div
+          className="d-flex justify-content-center  align-items-center"
+          style={{ height: "80vh" }}
+        >
           <BeatLoader color="#6c63ff" />
         </div>
       ) : (

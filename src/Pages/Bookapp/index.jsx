@@ -247,288 +247,300 @@ export default function Bookapp() {
     return slots;
   };
 
-  if (loading)
-    return (
-      <BeatLoader
-        color="#6c63ff"
-        className="d-flex justify-content-center vh-100 align-items-center"
-      />
-    );
-
   return (
     <>
       <Header />
-
-      <div className="search-bar">
-        <Container>
-          <h2 className="text-center fw-bold p-4">Search For Best Doctors</h2>
-          <Row>
-            <Col lg={4} sm={12} className="p-2">
-              <InputGroup className="mb-3">
-                <InputGroup.Text>
-                  <FontAwesomeIcon icon={faSearch} fade />
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by : Doctors"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </InputGroup>
-            </Col>
-            <Col lg={4} sm={12} className="p-2">
-              <InputGroup className="mb-3">
-                <InputGroup.Text>
-                  <FontAwesomeIcon icon={faLocationDot} fade />
-                </InputGroup.Text>
-                <Form.Select
-                  value={selectedHospital}
-                  onChange={(e) => setSelectedHospital(e.target.value)}
-                >
-                  <option value="">Select Hospital</option>
-                  {filteredHospitals.map((hospital, index) => (
-                    <option key={index} value={hospital}>
-                      {hospital}
-                    </option>
-                  ))}
-                </Form.Select>
-              </InputGroup>
-            </Col>
-            <Col lg={4} sm={12} className="p-2">
-              <InputGroup className="mb-3">
-                <InputGroup.Text>
-                  <FontAwesomeIcon icon={faSearch} fade />
-                </InputGroup.Text>
-                <Form.Select
-                  value={selectedSymptom}
-                  onChange={(e) => setSelectedSymptom(e.target.value)}
-                >
-                  <option value="">Select Symptom</option>
-                  {Object.keys(symptomToSpecialty).map((symptom, index) => (
-                    <option key={index} value={symptom}>
-                      {symptom}
-                    </option>
-                  ))}
-                </Form.Select>
-              </InputGroup>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-
-      <div className="doctorcards p-5">
-        <div className="abtheading text-center fw-bold">
-          <h1 className="p-2" style={{ color: "#028885", fontSize: "50px" }}>
-            Team of Experts
-          </h1>
-          <h4 className="p-2 " style={{ color: " #007c9d" }}>
-            Meet the experts behind{" "}
-            <b>
-              <i>DocHub's</i>
-            </b>{" "}
-            healthcare technology advancements
-          </h4>
+      {loading ? (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "80vh" }}
+        >
+          <BeatLoader color="#6c63ff" />
         </div>
-        <Container>
-          <Row>
-            {filteredDoctorCards.length > 0 ? (
-              filteredDoctorCards.map((doctor, i) => (
-                <DoctorCard dItems={doctor} key={i} />
-              ))
-            ) : (
-              <h3 className="text-center p-4">No doctors found</h3>
-            )}
-          </Row>
-        </Container>
-      </div>
-      <div className="bookapp">
-        <Container>
-          <Row>
-            <Col
-              lg={6}
-              md={12}
-              sm={12}
-              className="mb-4 d-flex justify-content-center"
-            >
-              <img
-                src="images/appoint_bg_doc.png"
-                alt="Medical Appointment"
-                className="img-fluid"
-                style={{ maxHeight: "min-content" }}
-              />
-            </Col>
-            <Col lg={6} md={12} sm={12} className="p-4">
-              <div className="form">
-                <h2 className="text-center p-4 fw-bold">Book an Appointment</h2>
-                <form className="p-3 rounded book-form" onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
+      ) : (
+        <>
+          <div className="search-bar">
+            <Container>
+              <h2 className="text-center fw-bold p-4">
+                Search For Best Doctors
+              </h2>
+              <Row>
+                <Col lg={4} sm={12} className="p-2">
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faSearch} fade />
+                    </InputGroup.Text>
                     <Form.Control
                       type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Enter your name"
+                      placeholder="Search by : Doctors"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    {errors.name && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.name}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Enter your phone number"
-                    />
-                    {errors.phone && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.phone}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="age"
-                      value={formData.age}
-                      onChange={handleInputChange}
-                      placeholder="Enter your age"
-                    />
-                    {errors.age && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.age}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Gender</Form.Label>
-                    <div className="text-white d-flex gap-3">
-                      <Form.Check
-                        type="radio"
-                        label="Male"
-                        name="gender"
-                        value="male"
-                        checked={formData.gender === "male"}
-                        onChange={handleInputChange}
-                      />
-                      <Form.Check
-                        type="radio"
-                        label="Female"
-                        name="gender"
-                        value="female"
-                        checked={formData.gender === "female"}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    {errors.gender && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.gender}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Appointment Date</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="appointmentDate"
-                      value={formData.appointmentDate}
-                      onChange={handleInputChange}
+                  </InputGroup>
+                </Col>
+                <Col lg={4} sm={12} className="p-2">
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faLocationDot} fade />
+                    </InputGroup.Text>
+                    <Form.Select
+                      value={selectedHospital}
+                      onChange={(e) => setSelectedHospital(e.target.value)}
                     >
-                      <option value="">Select Appointment Date</option>
-                      {generateUpcomingDates().map((date, index) => (
-                        <option key={index} value={date}>
-                          {date}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    {errors.appointmentDate && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.appointmentDate}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Time Slot</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="timeSlot"
-                      value={formData.timeSlot}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Time Slot</option>
-                      {generateTimeSlots().map((slot, index) => (
-                        <option key={index} value={slot}>
-                          {slot}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    {errors.timeSlot && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.timeSlot}
-                      </p>
-                    )}
-                  </Form.Group>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label>Hospital</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="hospital"
-                      value={formData.hospital}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Choose preferred Hospitals:</option>
+                      <option value="">Select Hospital</option>
                       {filteredHospitals.map((hospital, index) => (
                         <option key={index} value={hospital}>
                           {hospital}
                         </option>
                       ))}
-                    </Form.Control>
-                    {errors.hospital && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.hospital}
-                      </p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Doctor</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="doctor"
-                      value={formData.doctor}
-                      onChange={handleInputChange}
+                    </Form.Select>
+                  </InputGroup>
+                </Col>
+                <Col lg={4} sm={12} className="p-2">
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text>
+                      <FontAwesomeIcon icon={faSearch} fade />
+                    </InputGroup.Text>
+                    <Form.Select
+                      value={selectedSymptom}
+                      onChange={(e) => setSelectedSymptom(e.target.value)}
                     >
-                      <option value="">
-                        Choose preferred Doctor (if any):
-                      </option>
-                      {filteredDoctors.map((doctor, index) => (
-                        <option key={index} value={doctor._id}>
-                          {doctor.name}
+                      <option value="">Select Symptom</option>
+                      {Object.keys(symptomToSpecialty).map((symptom, index) => (
+                        <option key={index} value={symptom}>
+                          {symptom}
                         </option>
                       ))}
-                    </Form.Control>
-                    {errors.doctor && (
-                      <p className="text-danger bg-warning p-1 rounded">
-                        {errors.doctor}
-                      </p>
-                    )}
-                  </Form.Group>
+                    </Form.Select>
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Container>
+          </div>
 
-                  <button type="submit" className="bkbtn">
-                    Book Appointment
-                  </button>
-                </form>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+          <div className="doctorcards p-5">
+            <div className="abtheading text-center fw-bold">
+              <h1
+                className="p-2"
+                style={{ color: "#028885", fontSize: "50px" }}
+              >
+                Team of Experts
+              </h1>
+              <h4 className="p-2 " style={{ color: " #007c9d" }}>
+                Meet the experts behind{" "}
+                <b>
+                  <i>DocHub's</i>
+                </b>{" "}
+                healthcare technology advancements
+              </h4>
+            </div>
+            <Container>
+              <Row>
+                {filteredDoctorCards.length > 0 ? (
+                  filteredDoctorCards.map((doctor, i) => (
+                    <DoctorCard dItems={doctor} key={i} />
+                  ))
+                ) : (
+                  <h3 className="text-center p-4">No doctors found</h3>
+                )}
+              </Row>
+            </Container>
+          </div>
+          <div className="bookapp">
+            <Container>
+              <Row>
+                <Col
+                  lg={6}
+                  md={12}
+                  sm={12}
+                  className="mb-4 d-flex justify-content-center"
+                >
+                  <img
+                    src="images/appoint_bg_doc.png"
+                    alt="Medical Appointment"
+                    className="img-fluid"
+                    style={{ maxHeight: "min-content" }}
+                  />
+                </Col>
+                <Col lg={6} md={12} sm={12} className="p-4">
+                  <div className="form">
+                    <h2 className="text-center p-4 fw-bold">
+                      Book an Appointment
+                    </h2>
+                    <form
+                      className="p-3 rounded book-form"
+                      onSubmit={handleSubmit}
+                    >
+                      <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Enter your name"
+                        />
+                        {errors.name && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.name}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Phone</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="Enter your phone number"
+                        />
+                        {errors.phone && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.phone}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Age</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="age"
+                          value={formData.age}
+                          onChange={handleInputChange}
+                          placeholder="Enter your age"
+                        />
+                        {errors.age && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.age}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Gender</Form.Label>
+                        <div className="text-white d-flex gap-3">
+                          <Form.Check
+                            type="radio"
+                            label="Male"
+                            name="gender"
+                            value="male"
+                            checked={formData.gender === "male"}
+                            onChange={handleInputChange}
+                          />
+                          <Form.Check
+                            type="radio"
+                            label="Female"
+                            name="gender"
+                            value="female"
+                            checked={formData.gender === "female"}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        {errors.gender && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.gender}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Appointment Date</Form.Label>
+                        <Form.Control
+                          as="select"
+                          name="appointmentDate"
+                          value={formData.appointmentDate}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">Select Appointment Date</option>
+                          {generateUpcomingDates().map((date, index) => (
+                            <option key={index} value={date}>
+                              {date}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {errors.appointmentDate && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.appointmentDate}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Time Slot</Form.Label>
+                        <Form.Control
+                          as="select"
+                          name="timeSlot"
+                          value={formData.timeSlot}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">Select Time Slot</option>
+                          {generateTimeSlots().map((slot, index) => (
+                            <option key={index} value={slot}>
+                              {slot}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {errors.timeSlot && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.timeSlot}
+                          </p>
+                        )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label>Hospital</Form.Label>
+                        <Form.Control
+                          as="select"
+                          name="hospital"
+                          value={formData.hospital}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">Choose preferred Hospitals:</option>
+                          {filteredHospitals.map((hospital, index) => (
+                            <option key={index} value={hospital}>
+                              {hospital}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {errors.hospital && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.hospital}
+                          </p>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Doctor</Form.Label>
+                        <Form.Control
+                          as="select"
+                          name="doctor"
+                          value={formData.doctor}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">
+                            Choose preferred Doctor (if any):
+                          </option>
+                          {filteredDoctors.map((doctor, index) => (
+                            <option key={index} value={doctor._id}>
+                              {doctor.name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {errors.doctor && (
+                          <p className="text-danger bg-warning p-1 rounded">
+                            {errors.doctor}
+                          </p>
+                        )}
+                      </Form.Group>
+
+                      <button type="submit" className="bkbtn">
+                        Book Appointment
+                      </button>
+                    </form>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        </>
+      )}
       {/* Success Modal */}
       <Modal
         show={showSuccessModal}

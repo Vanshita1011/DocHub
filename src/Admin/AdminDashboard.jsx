@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../common/Header";
 import Footer from "../common/footer";
+import { BeatLoader } from "react-spinners";
 
 export default function AdminDashboard() {
   const [message, setMessage] = useState("");
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
   const [show, setShow] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [doctorToDelete, setDoctorToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     img: "",
@@ -44,6 +46,7 @@ export default function AdminDashboard() {
 
   // Fetch Admin Authentication Data
   useEffect(() => {
+    setLoading(true);
     const fetchAdminData = async () => {
       const token = localStorage.getItem("adminToken");
       if (!token) return navigate("/admin-login");
@@ -76,6 +79,8 @@ export default function AdminDashboard() {
       setDoctors(response.data);
     } catch (error) {
       console.error("Error fetching doctors:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -170,220 +175,231 @@ export default function AdminDashboard() {
   return (
     <>
       <Header />
-      <Container className="mt-5">
-        <ToastContainer position="top-right" autoClose={2000} />
-        <Row>
-          <Col>
-            <h2 className="text-custom">Admin Dashboard</h2>
-            <p>{message}</p>
-            <Button className="btn btn-danger mb-3" onClick={handleLogout}>
-              Logout
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h3>Manage Doctors</h3>
-            <Button
-              variant="primary"
-              onClick={() => {
-                setShow(true);
-                setEditingId(null);
-              }}
-            >
-              Add Doctor
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col style={{ overflowX: "auto" }}>
-            <Table striped bordered hover responsive className="mt-3">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Title</th>
-                  <th>Hospital</th>
-                  <th>Experience</th>
-                  <th>Fee</th>
-                  <th>About</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {doctors.map((doc) => (
-                  <tr key={doc._id}>
-                    <td>
-                      <img
-                        src={doc.img}
-                        alt="doctor"
-                        style={{ width: "100px" }}
-                      />
-                    </td>
-                    <td>{doc.name}</td>
-                    <td>{doc.title}</td>
-                    <td>{doc.hospital}</td>
-                    <td>{doc.experience}</td>
-                    <td>{doc.fee}</td>
-                    <td>{doc.about}</td>
-                    <td>
-                      <Button
-                        className="m-1"
-                        variant="secondary"
-                        onClick={() =>
-                          navigate(`/admin/appointments/${doc._id}`)
-                        }
-                      >
-                        View
-                      </Button>
-                      <Button
-                        className="m-1"
-                        variant="warning"
-                        onClick={() => {
-                          setShow(true);
-                          setEditingId(doc._id);
-                          setFormData(doc);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        className="m-1"
-                        variant="danger"
-                        onClick={() => handleShowDeleteModal(doc._id)}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-
-        {/* Modal for Adding/Editing Doctor */}
-        <Modal show={show} onHide={() => setShow(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {editingId ? "Edit Doctor" : "Add Doctor"}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form className="book-form" onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label className="p-2">Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Hospital</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={formData.hospital}
-                  onChange={(e) =>
-                    setFormData({ ...formData, hospital: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Experience</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={formData.experience}
-                  onChange={(e) =>
-                    setFormData({ ...formData, experience: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Fee</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={formData.fee}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fee: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>About</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={formData.about}
-                  onChange={(e) =>
-                    setFormData({ ...formData, about: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    setFormData({ ...formData, img: e.target.files[0] });
+      {loading ? (
+        <div
+          className="d-flex justify-content-center  align-items-center"
+          style={{ height: "80vh" }}
+        >
+          <BeatLoader color="#6c63ff" />
+        </div>
+      ) : (
+        <>
+          <Container className="mt-5">
+            <ToastContainer position="top-right" autoClose={2000} />
+            <Row>
+              <Col>
+                <h2 className="text-custom">Admin Dashboard</h2>
+                <p>{message}</p>
+                <Button className="btn btn-danger mb-3" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <h3>Manage Doctors</h3>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    setShow(true);
+                    setEditingId(null);
                   }}
-                  required={!editingId} // Required only when adding a new doctor
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  required
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  required={!editingId} // Required only when adding a doctor
-                />
-              </Form.Group>
+                >
+                  Add Doctor
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col style={{ overflowX: "auto" }}>
+                <Table striped bordered hover responsive className="mt-3">
+                  <thead>
+                    <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Title</th>
+                      <th>Hospital</th>
+                      <th>Experience</th>
+                      <th>Fee</th>
+                      <th>About</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {doctors.map((doc) => (
+                      <tr key={doc._id}>
+                        <td>
+                          <img
+                            src={doc.img}
+                            alt="doctor"
+                            style={{ width: "100px" }}
+                          />
+                        </td>
+                        <td>{doc.name}</td>
+                        <td>{doc.title}</td>
+                        <td>{doc.hospital}</td>
+                        <td>{doc.experience}</td>
+                        <td>{doc.fee}</td>
+                        <td>{doc.about}</td>
+                        <td>
+                          <Button
+                            className="m-1"
+                            variant="secondary"
+                            onClick={() =>
+                              navigate(`/admin/appointments/${doc._id}`)
+                            }
+                          >
+                            View
+                          </Button>
+                          <Button
+                            className="m-1"
+                            variant="warning"
+                            onClick={() => {
+                              setShow(true);
+                              setEditingId(doc._id);
+                              setFormData(doc);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            className="m-1"
+                            variant="danger"
+                            onClick={() => handleShowDeleteModal(doc._id)}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
 
-              <Button
-                variant="dark"
-                type="submit"
-                className="mt-3 d-flex "
-                style={{ justifySelf: "center" }}
-              >
-                {editingId ? "Update" : "Add"}
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
-      </Container>
+            {/* Modal for Adding/Editing Doctor */}
+            <Modal show={show} onHide={() => setShow(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  {editingId ? "Edit Doctor" : "Add Doctor"}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form className="book-form" onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="p-2">Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Hospital</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.hospital}
+                      onChange={(e) =>
+                        setFormData({ ...formData, hospital: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Experience</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.experience}
+                      onChange={(e) =>
+                        setFormData({ ...formData, experience: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Fee</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={formData.fee}
+                      onChange={(e) =>
+                        setFormData({ ...formData, fee: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>About</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={formData.about}
+                      onChange={(e) =>
+                        setFormData({ ...formData, about: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        setFormData({ ...formData, img: e.target.files[0] });
+                      }}
+                      required={!editingId} // Required only when adding a new doctor
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({ ...formData, password: e.target.value })
+                      }
+                      required={!editingId} // Required only when adding a doctor
+                    />
+                  </Form.Group>
+
+                  <Button
+                    variant="dark"
+                    type="submit"
+                    className="mt-3 d-flex "
+                    style={{ justifySelf: "center" }}
+                  >
+                    {editingId ? "Update" : "Add"}
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </Modal>
+          </Container>
+        </>
+      )}
 
       {/* Delete Confirmation Modal */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
