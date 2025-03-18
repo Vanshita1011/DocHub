@@ -120,7 +120,7 @@ export default function Footer() {
                   <ul>
                     <li>
                       <Link to={"/book-appoinment"} className="link">
-                        Book Appoinment
+                        Book Appointment
                       </Link>
                     </li>
                     <li>
