@@ -8,7 +8,7 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Bookapp from "./Pages/Bookapp";
 import Blog from "./Pages/Blog";
-import Error404 from "./Error404";
+import Error404 from "./Pages/Error404";
 import Bookdetails from "./Pages/Bookapp/Bookdetails";
 import Blogdetails from "./Pages/Blog/Blogdetails";
 import Terms from "./Pages/Terms";
