@@ -14,7 +14,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ScrollToTop from "react-scroll-to-top";
-import axios from "axios";
 import { toast } from "react-toastify";
 import symptomToSpecialty from "./Symptoms";
 import { BeatLoader } from "react-spinners";
@@ -24,6 +23,7 @@ import {
   generateUpcomingDates,
   validateForm,
 } from "./formUtils";
+import api from "../../axiosInterceptor";
 
 export default function Bookapp() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,9 +54,7 @@ export default function Bookapp() {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(
-          "https://doc-hub-b.vercel.app/api/doctors/getDoctors"
-        );
+        const response = await api.get("/doctors/getDoctors");
         setDoctorsData(response.data);
         setFilteredDoctors(response.data);
         setFilteredHospitals([
@@ -147,7 +145,7 @@ export default function Bookapp() {
     if (Object.keys(validationErrors).length === 0) {
       try {
         console.log("Form Data:", formData); // Log form data
-        await axios.post("https://doc-hub-b.vercel.app/api/appointments", {
+        await api.post("/appointments", {
           userEmail,
           ...formData,
         });

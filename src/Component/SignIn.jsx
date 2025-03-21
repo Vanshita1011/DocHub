@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -46,6 +47,7 @@ const SignIn = () => {
     setFieldErrors(errors);
     return isValid;
   };
+  const { setUser } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -59,6 +61,8 @@ const SignIn = () => {
 
       localStorage.setItem("token", response.data.token); // Save JWT token
       localStorage.setItem("user", JSON.stringify({ email })); // Store user data
+      // Update the context immediately
+      setUser({ email });
 
       setSuccessMessage("Login successful!");
       setError("");

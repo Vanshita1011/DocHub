@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 
 const DoctorLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -49,6 +50,7 @@ const DoctorLogin = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const { setUser } = useUser(); // Use setUser to update global state
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -63,6 +65,9 @@ const DoctorLogin = () => {
       localStorage.setItem("doctorToken", response.data.token);
       localStorage.setItem("doctorId", response.data.doctor._id);
       localStorage.setItem("doctor", JSON.stringify({ email: formData.email }));
+      // Update the context immediately
+      setUser({ email: formData.email });
+
       navigate("/doctor-dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed!");

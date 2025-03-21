@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Col, Container, Row } from "react-bootstrap";
 import Slot from "./Slot";
-import Header from "../../common/Header";
-import Footer from "../../common/footer";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
@@ -39,7 +38,6 @@ export default function Bookdetails() {
 
   return (
     <>
-      <Header />
       {loading ? (
         <div
           className="d-flex justify-content-center  align-items-center"
@@ -91,7 +89,6 @@ export default function Bookdetails() {
           <Slot doctor={doctor} />
         </>
       )}
-      <Footer />
     </>
   );
 }

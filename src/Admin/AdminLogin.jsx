@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Container, Card } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -13,6 +14,7 @@ export default function AdminLogin() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +22,9 @@ export default function AdminLogin() {
       const res = await api.post("/admin/login", formData);
       localStorage.setItem("adminToken", res.data.token);
       localStorage.setItem("admin", JSON.stringify({ email: formData.email }));
+      // Update the context immediately
+      setUser({ email: formData.email });
+
       navigate("/admin-dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed!");

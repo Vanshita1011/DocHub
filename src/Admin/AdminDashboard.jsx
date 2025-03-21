@@ -13,8 +13,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 
 export default function AdminDashboard() {
+  const { logout } = useUser(); // Use the logout function
+
   const [message, setMessage] = useState("");
   const [doctors, setDoctors] = useState([]); // Store fetched doctors
   const [show, setShow] = useState(false);
@@ -37,8 +40,9 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("admin");
+    logout();
+    // localStorage.removeItem("adminToken");
+    // localStorage.removeItem("admin");
     navigate("/admin-login");
   };
 

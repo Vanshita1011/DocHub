@@ -4,44 +4,49 @@ import "./Header.css";
 import { Navbar, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "../../UserContext";
 
 export default function Header() {
+  const { user } = useUser();
   const [expanded, setExpanded] = useState(false);
-  const [user, setUser] = useState(null);
-  const [doctor, setDoctor] = useState(null);
-  const [admin, setAdmin] = useState(null);
+  // const [user, setUser] = useState(null);
+  // const [doctor, setDoctor] = useState(null);
+  // const [admin, setAdmin] = useState(null);
 
-  useEffect(() => {
-    const fetchUser = () => {
-      const loggedInUser = localStorage.getItem("user");
-      const loggedInDoctor = localStorage.getItem("doctor");
-      const loggedInAdmin = localStorage.getItem("admin");
+  // useEffect(() => {
+  //   const fetchUser = () => {
+  //     const loggedInUser = localStorage.getItem("user");
+  //     const loggedInDoctor = localStorage.getItem("doctor");
+  //     const loggedInAdmin = localStorage.getItem("admin");
 
-      if (loggedInUser) {
-        setUser(JSON.parse(loggedInUser));
-        setDoctor(null);
-        setAdmin(null);
-      } else if (loggedInDoctor) {
-        setDoctor(JSON.parse(loggedInDoctor));
-        setUser(null);
-        setAdmin(null);
-      } else if (loggedInAdmin) {
-        setAdmin(JSON.parse(loggedInAdmin));
-        setUser(null);
-        setDoctor(null);
-      } else {
-        setUser(null);
-        setDoctor(null);
-        setAdmin(null);
-      }
-    };
+  //     if (loggedInUser) {
+  //       const parsedUser = JSON.parse(loggedInUser);
+  //       setUser(parsedUser); // Update state with user data
+  //       setDoctor(null);
+  //       setAdmin(null);
+  //     } else if (loggedInDoctor) {
+  //       const parsedDoctor = JSON.parse(loggedInDoctor);
+  //       setDoctor(parsedDoctor); // Update state with doctor data
+  //       setUser(null);
+  //       setAdmin(null);
+  //     } else if (loggedInAdmin) {
+  //       const parsedAdmin = JSON.parse(loggedInAdmin);
+  //       setAdmin(parsedAdmin); // Update state with admin data
+  //       setUser(null);
+  //       setDoctor(null);
+  //     } else {
+  //       setUser(null);
+  //       setDoctor(null);
+  //       setAdmin(null);
+  //     }
+  //   };
 
-    fetchUser();
-    window.addEventListener("storage", fetchUser); // Listen for storage updates
-    return () => {
-      window.removeEventListener("storage", fetchUser);
-    };
-  }, []);
+  //   fetchUser();
+  //   window.addEventListener("storage", fetchUser); // Listen for storage updates
+  //   return () => {
+  //     window.removeEventListener("storage", fetchUser);
+  //   };
+  // }, []);
 
   return (
     <Navbar
@@ -102,7 +107,7 @@ export default function Header() {
           </Nav>
 
           {/* Right: Profile or Sign In */}
-          <Nav>
+          {/* <Nav>
             {user ? (
               <Nav.Link
                 as={NavLink}
@@ -188,6 +193,31 @@ export default function Header() {
                 as={Link}
                 onClick={() => setExpanded(false)}
               >
+                Sign In
+                <FontAwesomeIcon icon={faArrowRight} beat className="ms-3" />
+              </Nav.Link>
+            )}
+          </Nav> */}
+
+          <Nav>
+            {user ? (
+              <Nav.Link as={NavLink} to="/profile" className="contact-btn">
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    backgroundColor: "#2196F3",
+                    color: "white",
+                    fontSize: "25px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {user.email.charAt(0).toUpperCase()}
+                </div>
+              </Nav.Link>
+            ) : (
+              <Nav.Link to="/signIn" className="contact-btn p-2" as={Link}>
                 Sign In
                 <FontAwesomeIcon icon={faArrowRight} beat className="ms-3" />
               </Nav.Link>

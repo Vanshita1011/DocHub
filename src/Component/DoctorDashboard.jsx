@@ -12,8 +12,10 @@ import {
 import "./DoctorDashboard.css";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 
 export default function DoctorDashboard() {
+  const { logout } = useUser();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [slots, setSlots] = useState([]);
@@ -101,9 +103,10 @@ export default function DoctorDashboard() {
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("doctor");
-    localStorage.removeItem("doctorId");
-    localStorage.removeItem("token");
+    logout();
+    // localStorage.removeItem("doctor");
+    // localStorage.removeItem("doctorId");
+    // localStorage.removeItem("token");
     navigate("/doctor-login");
   };
   const isPastAppointment = (appointmentDate, timeSlot) => {
