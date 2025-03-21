@@ -17,8 +17,6 @@ import ScrollToTop from "react-scroll-to-top";
 import axios from "axios";
 import { toast } from "react-toastify";
 import symptomToSpecialty from "./Symptoms";
-import Header from "../../common/Header";
-import Footer from "../../common/footer";
 import { BeatLoader } from "react-spinners";
 import DownloadSection from "./DownloadSection";
 import {
@@ -175,7 +173,6 @@ export default function Bookapp() {
 
   return (
     <>
-      <Header />
       {loading ? (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -502,7 +499,6 @@ export default function Bookapp() {
       </Modal>
       <DownloadSection />
       <ScrollToTop smooth color="#028885" />
-      <Footer />
     </>
   );
 }

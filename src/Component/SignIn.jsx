@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
@@ -10,8 +9,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import Footer from "../common/footer";
-import Header from "../common/Header";
+import api from "../axiosInterceptor";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -57,10 +55,7 @@ const SignIn = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://doc-hub-b.vercel.app/api/auth/login",
-        { email, password }
-      );
+      const response = await api.post("/auth/login", { email, password });
 
       localStorage.setItem("token", response.data.token); // Save JWT token
       localStorage.setItem("user", JSON.stringify({ email })); // Store user data
@@ -83,7 +78,6 @@ const SignIn = () => {
 
   return (
     <>
-      <Header />
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
         <Card className="p-4 shadow-lg" style={{ width: "400px" }}>
           <h3 className="text-center mb-3 fw-bold">Sign In</h3>
@@ -142,7 +136,6 @@ const SignIn = () => {
           </Form>
         </Card>
       </Container>
-      <Footer />
     </>
   );
 };

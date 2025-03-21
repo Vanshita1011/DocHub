@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import Header from "../../common/Header";
-import Footer from "../../common/footer";
 import "./Home.css";
-import { HomeCard } from "./HomeCard";
 import { Link } from "react-router-dom";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import ScrollToTop from "react-scroll-to-top";
@@ -12,7 +9,7 @@ import {
   homeBottomCardData,
   homeCardData,
 } from "../../Component/Cards/AllCardData";
-import { HomeBottomCard } from "../../Component/Cards/AllCard";
+import { HomeBottomCard, HomeCard } from "../../Component/Cards/AllCard";
 import EmailInput from "../../Component/Validation/EmailInput";
 
 export default function Home() {
@@ -26,7 +23,7 @@ export default function Home() {
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {/* carousel start */}
       <CarouselComponent />
       {/* carousel end */}
@@ -230,7 +227,7 @@ export default function Home() {
         </Row>
       </Container>
       <ScrollToTop smooth color="#028885" />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

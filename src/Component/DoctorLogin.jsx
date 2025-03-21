@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -10,8 +9,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import Header from "../common/Header";
-import Footer from "../common/footer";
+import api from "../axiosInterceptor";
 
 const DoctorLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -60,10 +58,7 @@ const DoctorLogin = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://doc-hub-b.vercel.app/api/doctors/login",
-        formData
-      );
+      const response = await api.post("/doctors/login", formData);
 
       localStorage.setItem("doctorToken", response.data.token);
       localStorage.setItem("doctorId", response.data.doctor._id);
@@ -76,7 +71,6 @@ const DoctorLogin = () => {
 
   return (
     <>
-      <Header />
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
         <Card className="p-4 shadow-lg login-card" style={{ width: "400px" }}>
           <h3 className="text-center mb-3 fw-bold">Doctor Login</h3>
@@ -128,7 +122,6 @@ const DoctorLogin = () => {
           </Form>
         </Card>
       </Container>
-      <Footer />
     </>
   );
 };

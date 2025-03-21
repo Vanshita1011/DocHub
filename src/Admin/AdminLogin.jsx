@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Container, Card } from "react-bootstrap";
-import Header from "../common/Header";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import Footer from "../common/footer";
+import api from "../axiosInterceptor";
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -19,10 +17,7 @@ export default function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "https://doc-hub-b.vercel.app/api/admin/login",
-        formData
-      );
+      const res = await api.post("/admin/login", formData);
       localStorage.setItem("adminToken", res.data.token);
       localStorage.setItem("admin", JSON.stringify({ email: formData.email }));
       navigate("/admin-dashboard");
@@ -33,7 +28,6 @@ export default function AdminLogin() {
 
   return (
     <>
-      <Header />
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
         <Card className="p-4 shadow-lg login-card">
           <h3 className="text-center mb-3 fw-bold">Admin Login</h3>
@@ -76,7 +70,6 @@ export default function AdminLogin() {
           </Form>
         </Card>
       </Container>
-      <Footer />
     </>
   );
 }

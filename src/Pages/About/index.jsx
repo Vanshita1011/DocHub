@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Header from "../../common/Header";
 import "./About.css";
-import Footer from "../../common/footer";
 import { Container, Row, Col } from "react-bootstrap";
 import ScrollToTop from "react-scroll-to-top";
 import { abtBottomCard, abtUpperCard } from "../../Component/Cards/AllCardData";
@@ -17,8 +15,6 @@ export default function About() {
   return (
     <>
       <div>
-        <Header />
-
         <div className="abt text-center p-3">
           <h1 className="p-2 fw-bold text-custom">About DocHub</h1>
           <p className="p-3 ">Take A Right Step For Your Life</p>
@@ -112,7 +108,6 @@ export default function About() {
           </Container>
         </section>
         <ScrollToTop smooth color="#028885" />
-        <Footer />
       </div>
     </>
   );

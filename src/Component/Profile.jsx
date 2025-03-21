@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Container,
   Card,
@@ -11,14 +10,11 @@ import {
   Modal,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
-import Header from "../common/Header";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../common/footer";
 import ScrollToTop from "react-scroll-to-top";
 import { BeatLoader } from "react-spinners";
-
+import api from "../axiosInterceptor";
 const Profile = () => {
   const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
   const navigate = useNavigate();
@@ -41,17 +37,17 @@ const Profile = () => {
 
   useEffect(() => {
     if (userEmail) {
-      axios
-        .get(`https://doc-hub-b.vercel.app/api/users/${userEmail}`)
+      api
+        .get(`/users/${userEmail}`)
         .then((response) => setUserData(response.data))
         .catch((error) => console.error("Error fetching user data:", error));
 
-      axios
-        .get(`https://doc-hub-b.vercel.app/api/appointments/${userEmail}`)
+      api
+        .get(`/appointments/${userEmail}`)
         .then((response) => setAppointments(response.data))
         .catch((error) => console.error("Error fetching appointments:", error));
-      axios
-        .get(`https://doc-hub-b.vercel.app/api/slots/${userEmail}`) //  Fetch slots
+      api
+        .get(`/slots/${userEmail}`) //  Fetch slots
         .then((response) => setSlots(response.data))
         .catch((error) => console.error("Error fetching slots:", error))
         .finally(() => setLoading(false)); // Stop loading after all data is fetched
@@ -100,14 +96,9 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put(
-        `https://doc-hub-b.vercel.app/api/users/update/${userEmail}`,
-        userData
-      );
+      const response = await api.put(`/users/update/${userEmail}`, userData);
       console.log("Update response:", response.data);
-      const updatedResponse = await axios.get(
-        `https://doc-hub-b.vercel.app/api/users/${userEmail}`
-      );
+      const updatedResponse = await api.get(`/users/${userEmail}`);
       setUserData(updatedResponse.data);
       localStorage.setItem("userData", JSON.stringify(updatedResponse.data));
       toast.success("Your profile updated successfully!", {
@@ -127,9 +118,7 @@ const Profile = () => {
 
   const handleCancelAppointment = async (appointmentId) => {
     try {
-      const response = await axios.delete(
-        `https://doc-hub-b.vercel.app/api/appointments/${appointmentId}`
-      );
+      const response = await api.delete(`/appointments/${appointmentId}`);
       console.log("Delete response:", response.data);
       setAppointments(
         appointments.filter((appointment) => appointment._id !== appointmentId)
@@ -147,9 +136,7 @@ const Profile = () => {
   };
   const handleCancelSlot = async (slotId) => {
     try {
-      const response = await axios.delete(
-        `https://doc-hub-b.vercel.app/api/slots/${slotId}`
-      );
+      const response = await api.delete(`/slots/${slotId}`);
       console.log("Delete response:", response.data);
       setSlots(slots.filter((slot) => slot._id !== slotId));
       toast.success("Slot cancelled successfully!", {
@@ -194,7 +181,6 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
       <ToastContainer />
       {loading ? (
         <div
@@ -472,7 +458,6 @@ const Profile = () => {
         </Modal.Footer>
       </Modal>
       <ScrollToTop smooth color="#028885" />
-      <Footer />
     </>
   );
 };

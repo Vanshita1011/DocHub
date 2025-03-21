@@ -12,7 +12,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import axios from "axios";
+import api from "../../axiosInterceptor";
 
 const Slot = ({ doctor }) => {
   const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
@@ -132,13 +132,10 @@ const Slot = ({ doctor }) => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post(
-        "https://doc-hub-b.vercel.app/api/slots/book-slot",
-        {
-          ...formData,
-          doctorName: formData.doctor, //  Send doctor name, backend will convert to ObjectId
-        }
-      );
+      const response = await api.post("/slots/book-slot", {
+        ...formData,
+        doctorName: formData.doctor, //  Send doctor name, backend will convert to ObjectId
+      });
 
       if (response.status === 201) {
         setShowFormModal(false);

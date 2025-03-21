@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Header from "../../common/Header";
-import Footer from "../../common/footer";
 import { Col, Container, Row } from "react-bootstrap";
 import "./Contact.css";
 import { faqs } from "./Data/Faqs";
@@ -54,7 +52,6 @@ const Contact = () => {
   };
   return (
     <>
-      <Header />
       <Container>
         <h2 className="p-5 text-center fw-bold contact-heading fs-1">
           Let's start a conversation
@@ -182,7 +179,6 @@ const Contact = () => {
         </div>
       </Container>
       <ScrollToTop smooth color="#028885" />
-      <Footer />
     </>
   );
 };

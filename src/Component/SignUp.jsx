@@ -10,8 +10,6 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import Header from "../common/Header";
-import Footer from "../common/footer";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -129,7 +127,6 @@ const Register = () => {
 
   return (
     <>
-      <Header />
       <Container className="d-flex justify-content-center align-items-center my-5 min-vh-100">
         <Card className="p-4 shadow-lg " style={{ width: "400px" }}>
           <h3 className="text-center mb-3 fw-bold">Create Account</h3>
@@ -240,7 +237,6 @@ const Register = () => {
           </Form>
         </Card>
       </Container>
-      <Footer />
     </>
   );
 };

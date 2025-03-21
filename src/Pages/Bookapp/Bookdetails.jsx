@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 
 import { Col, Container, Row } from "react-bootstrap";
 import Slot from "./Slot";
@@ -10,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import { BeatLoader } from "react-spinners";
+import api from "../../axiosInterceptor";
 
 export default function Bookdetails() {
   const { id } = useParams(); // Get doctor ID from the URL
@@ -17,8 +17,8 @@ export default function Bookdetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`https://doc-hub-b.vercel.app/api/doctors/${id}`) // Fetch doctor details
+    api
+      .get(`/doctors/${id}`) // Fetch doctor details
       .then((response) => {
         setDoctor(response.data);
         setLoading(false);

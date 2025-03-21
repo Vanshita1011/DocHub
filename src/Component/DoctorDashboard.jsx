@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -10,10 +9,9 @@ import {
   Form,
   Card,
 } from "react-bootstrap";
-import Header from "../common/Header";
-import Footer from "../common/footer";
 import "./DoctorDashboard.css";
 import { BeatLoader } from "react-spinners";
+import api from "../axiosInterceptor";
 
 export default function DoctorDashboard() {
   const navigate = useNavigate();
@@ -41,9 +39,7 @@ export default function DoctorDashboard() {
       }
 
       try {
-        const response = await axios.get(
-          `https://doc-hub-b.vercel.app/api/doctors/email/${doctorEmail}`
-        );
+        const response = await api.get(`/doctors/email/${doctorEmail}`);
         if (response.data) {
           setDoctorName(response.data.name);
           setDoctor({
@@ -71,9 +67,7 @@ export default function DoctorDashboard() {
       }
 
       try {
-        const response = await axios.get(
-          `https://doc-hub-b.vercel.app/api/appointments/doctor/${doctorId}`
-        );
+        const response = await api.get(`/appointments/doctor/${doctorId}`);
         setAppointments(response.data);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -92,9 +86,7 @@ export default function DoctorDashboard() {
       }
 
       try {
-        const response = await axios.get(
-          `https://doc-hub-b.vercel.app/api/slots/doctor/${doctorId}`
-        );
+        const response = await api.get(`/slots/doctor/${doctorId}`);
         setSlots(response.data);
       } catch (error) {
         console.error("Error fetching slots:", error);
@@ -136,7 +128,6 @@ export default function DoctorDashboard() {
   });
   return (
     <>
-      <Header />
       {loading ? (
         <div
           className="d-flex justify-content-center  align-items-center"
@@ -351,7 +342,6 @@ export default function DoctorDashboard() {
           </Container>
         </>
       )}
-      <Footer />
     </>
   );
 }
