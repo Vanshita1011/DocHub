@@ -15,9 +15,11 @@ import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "react-scroll-to-top";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
+import { useUser } from "../UserContext";
 const Profile = () => {
-  const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
+  const { logout } = useUser();
   const navigate = useNavigate();
+  const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
   const [showModal, setShowModal] = useState(false);
   const [cancelType, setCancelType] = useState(null);
   const [cancelId, setCancelId] = useState(null);
@@ -60,12 +62,12 @@ const Profile = () => {
     setShowModal(true);
   };
 
-  cconst handleConfirmCancel = async () => {
-  if (cancelType === "appointment") {
-    await handleCancelAppointment(cancelId);
-  } else if (cancelType === "slot") {
-    await handleCancelSlot(cancelId);
-  }
+  const handleConfirmCancel = async () => {
+    if (cancelType === "appointment") {
+      await handleCancelAppointment(cancelId);
+    } else if (cancelType === "slot") {
+      await handleCancelSlot(cancelId);
+    }
     setShowModal(false);
   };
 
@@ -110,9 +112,10 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("userData");
+    logout();
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("user");
+    // localStorage.removeItem("userData");
     navigate("/signIn");
   };
 
@@ -353,7 +356,12 @@ const Profile = () => {
                                 <Button
                                   variant="danger"
                                   onClick={() =>
-                                    handleShowModal("appointment", item._id)
+                                    handleShowModal(
+                                      appointments.includes(item)
+                                        ? "appointment"
+                                        : "slot",
+                                      item._id
+                                    )
                                   }
                                 >
                                   Cancel
