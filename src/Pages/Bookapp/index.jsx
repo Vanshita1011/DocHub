@@ -2,15 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Bookapp.css";
 import DoctorCard from "./DoctorCard";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Modal,
-  Row,
-} from "react-bootstrap";
+import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ScrollToTop from "react-scroll-to-top";
@@ -18,12 +10,10 @@ import { toast } from "react-toastify";
 import symptomToSpecialty from "./Symptoms";
 import { BeatLoader } from "react-spinners";
 import DownloadSection from "./DownloadSection";
-import {
-  generateTimeSlots,
-  generateUpcomingDates,
-  validateForm,
-} from "./formUtils";
+import { validateForm } from "./formUtils";
 import api from "../../axiosInterceptor";
+import AppointmentForm from "./AppointmentForm";
+import SuccessModal from "./SuccessModal";
 
 export default function Bookapp() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -251,7 +241,7 @@ export default function Bookapp() {
                 Meet the experts behind{" "}
                 <b>
                   <i>DocHub's</i>
-                </b>{" "}
+                </b>
                 healthcare technology advancements
               </h4>
             </div>
@@ -288,175 +278,18 @@ export default function Bookapp() {
                     <h2 className="text-center p-4 fw-bold">
                       Book an Appointment
                     </h2>
-                    <form
-                      className="p-3 rounded book-form"
-                      onSubmit={handleSubmit}
-                    >
-                      <Form.Group className="mb-3">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          placeholder="Enter your name"
-                        />
-                        {errors.name && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.name}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Phone</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="Enter your phone number"
-                        />
-                        {errors.phone && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.phone}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Age</Form.Label>
-                        <Form.Control
-                          type="number"
-                          name="age"
-                          value={formData.age}
-                          onChange={handleInputChange}
-                          placeholder="Enter your age"
-                        />
-                        {errors.age && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.age}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Gender</Form.Label>
-                        <div className="text-white d-flex gap-3">
-                          <Form.Check
-                            type="radio"
-                            label="Male"
-                            name="gender"
-                            value="male"
-                            checked={formData.gender === "male"}
-                            onChange={handleInputChange}
-                          />
-                          <Form.Check
-                            type="radio"
-                            label="Female"
-                            name="gender"
-                            value="female"
-                            checked={formData.gender === "female"}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        {errors.gender && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.gender}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Appointment Date</Form.Label>
-                        <Form.Control
-                          as="select"
-                          name="appointmentDate"
-                          value={formData.appointmentDate}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Select Appointment Date</option>
-                          {generateUpcomingDates().map((date, index) => (
-                            <option key={index} value={date}>
-                              {date}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {errors.appointmentDate && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.appointmentDate}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Time Slot</Form.Label>
-                        <Form.Control
-                          as="select"
-                          name="timeSlot"
-                          value={formData.timeSlot}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Select Time Slot</option>
-                          {generateTimeSlots(formData.appointmentDate).map(
-                            (slot, index) => (
-                              <option key={index} value={slot}>
-                                {slot}
-                              </option>
-                            )
-                          )}
-                        </Form.Control>
-                        {errors.timeSlot && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.timeSlot}
-                          </p>
-                        )}
-                      </Form.Group>
-
-                      <Form.Group className="mb-3">
-                        <Form.Label>Hospital</Form.Label>
-                        <Form.Control
-                          as="select"
-                          name="hospital"
-                          value={formData.hospital}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Choose preferred Hospitals:</option>
-                          {filteredHospitals.map((hospital, index) => (
-                            <option key={index} value={hospital}>
-                              {hospital}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {errors.hospital && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.hospital}
-                          </p>
-                        )}
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Doctor</Form.Label>
-                        <Form.Control
-                          as="select"
-                          name="doctor"
-                          value={formData.doctor}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">
-                            Choose preferred Doctor (if any):
-                          </option>
-                          {filteredDoctors.map((doctor, index) => (
-                            <option key={index} value={doctor._id}>
-                              {doctor.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {errors.doctor && (
-                          <p className="text-danger bg-warning p-1 rounded">
-                            {errors.doctor}
-                          </p>
-                        )}
-                      </Form.Group>
-
-                      <button type="submit" className="bkbtn">
-                        Book Appointment
-                      </button>
-                    </form>
+                    <AppointmentForm
+                      formData={formData}
+                      errors={errors}
+                      handleInputChange={handleInputChange}
+                      handleSubmit={handleSubmit}
+                      filteredHospitals={filteredHospitals}
+                      filteredDoctors={filteredDoctors}
+                    />
+                    <SuccessModal
+                      show={showSuccessModal}
+                      onHide={() => setShowSuccessModal(false)}
+                    />
                   </div>
                 </Col>
               </Row>
@@ -465,36 +298,7 @@ export default function Bookapp() {
         </>
       )}
       {/* Success Modal */}
-      <Modal
-        show={showSuccessModal}
-        onHide={() => setShowSuccessModal(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title style={{ position: "relative" }}>Success</Modal.Title>
-          <img
-            src="\images\tick.png"
-            alt=""
-            style={{
-              width: "90px",
-              position: "absolute",
-              justifySelf: "anchor-center",
-              display: "flex",
-              top: "-40px",
-            }}
-          />
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your appointment is successfully booked!</p>
-          <br />
-          <p>Thank You for booking an appointment!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={() => setShowSuccessModal(false)}>
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
+
       <DownloadSection />
       <ScrollToTop smooth color="#028885" />
     </>

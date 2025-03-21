@@ -1,41 +1,42 @@
-// Validate form
 export const validateForm = (formData) => {
-  let newErrors = {};
+  let errors = {};
   const nameRegex = /^[A-Za-z\s]+$/;
-  const mobileRegex = /^[0-9]{10}$/;
+  const mobileRegex = /^(\+?\d{1,3}[-.\s]?)?\d{10}$/;
   const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
 
   if (!nameRegex.test(formData.name)) {
-    newErrors.name = "Name should contain only alphabets.";
+    errors.name = "Name should contain only alphabets.";
   }
 
   if (!mobileRegex.test(formData.phone)) {
-    newErrors.phone = "Mobile Number should be exactly 10 digits.";
+    errors.phone = "Mobile Number should be exactly 10 digits.";
   }
 
   if (!formData.appointmentDate) {
-    newErrors.appointmentDate = "Please select an appointment date.";
+    errors.appointmentDate = "Please select an appointment date.";
   } else if (formData.appointmentDate < today) {
-    newErrors.appointmentDate = "Appointment date cannot be in the past.";
+    errors.appointmentDate = "Appointment date cannot be in the past.";
   }
 
   if (!formData.hospital) {
-    newErrors.hospital = "Please select a preferred hospital.";
+    errors.hospital = "Please select a preferred hospital.";
   }
   if (!formData.doctor) {
-    newErrors.doctor = "Please select a preferred doctor.";
+    errors.doctor = "Please select a preferred doctor.";
   }
   if (!formData.timeSlot) {
-    newErrors.timeSlot = "Please select a time slot.";
-  }
-  if (!formData.gender) {
-    newErrors.gender = "Please select your gender.";
-  }
-  if (!formData.age) {
-    newErrors.age = "Please enter your age.";
+    errors.timeSlot = "Please select a time slot.";
   }
 
-  return newErrors;
+  if (!["male", "female"].includes(formData.gender?.toLowerCase())) {
+    errors.gender = "Please select a valid gender.";
+  }
+
+  if (formData.age < 0 || formData.age > 120) {
+    errors.age = "Please enter a valid age.";
+  }
+
+  return errors;
 };
 
 // Generate upcoming 10 dates

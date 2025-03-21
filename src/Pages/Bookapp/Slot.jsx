@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import api from "../../axiosInterceptor";
+import SuccessModal from "./SuccessModal";
 
 const Slot = ({ doctor }) => {
   const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
@@ -387,36 +388,10 @@ const Slot = ({ doctor }) => {
       </Modal>
 
       {/* Success Modal */}
-      <Modal
+      <SuccessModal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title style={{ position: "relative" }}>Success</Modal.Title>
-          <img
-            src="\images\tick.png"
-            alt=""
-            style={{
-              width: "90px",
-              position: "absolute",
-              justifySelf: "anchor-center",
-              display: "flex",
-              top: "-40px",
-            }}
-          />
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your appointment is successfully booked!</p>
-          <br />
-          <p>Thank You for booking an appointment!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={() => setShowSuccessModal(false)}>
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      />
     </>
   );
 };
