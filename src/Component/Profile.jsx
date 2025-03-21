@@ -60,12 +60,12 @@ const Profile = () => {
     setShowModal(true);
   };
 
-  const handleConfirmCancel = async () => {
-    if (cancelType === "appointment || Slot") {
-      await handleCancelAppointment(cancelId);
-    } else {
-      await handleCancelSlot(cancelId);
-    }
+  cconst handleConfirmCancel = async () => {
+  if (cancelType === "appointment") {
+    await handleCancelAppointment(cancelId);
+  } else if (cancelType === "slot") {
+    await handleCancelSlot(cancelId);
+  }
     setShowModal(false);
   };
 
