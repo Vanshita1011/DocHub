@@ -96,7 +96,7 @@ export default function Footer() {
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/about-us"} className="link">
+                      <Link to={"/booking-guide"} className="link">
                         Booking Guid
                       </Link>
                     </li>

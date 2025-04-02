@@ -18,6 +18,8 @@ import DoctorAppointments from "./Admin/DoctorAppointments";
 import DoctorLogin from "./Component/DoctorLogin";
 import DoctorDashboard from "./Component/DoctorDashboard";
 import Layout from "./common/Layout";
+import BookingGuide from "./Component/BookingGuide";
+import AdminQueries from "./Admin/AdminQueries";
 
 export const allRoutes = createBrowserRouter([
   {
@@ -94,8 +96,16 @@ export const allRoutes = createBrowserRouter([
         element: <DoctorLogin />,
       },
       {
+        path: "booking-guide",
+        element: <BookingGuide />,
+      },
+      {
         path: "doctor-dashboard",
         element: <DoctorDashboard />,
+      },
+      {
+        path: "admin/queries",
+        element: <AdminQueries />,
       },
     ],
   },

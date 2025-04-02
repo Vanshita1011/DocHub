@@ -3,6 +3,10 @@
 }
 .blogtitle {
   font-weight: 700 !important;
+  font-family: cursive !important;
+}
+.blog-des {
+  font-family: cursive !important;
 }
 .icongroup {
   color: #5c728e;

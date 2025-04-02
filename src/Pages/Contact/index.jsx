@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./Contact.css";
 import { faqs } from "./Data/Faqs";
@@ -6,6 +6,8 @@ import "./faq.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ScrollToTop from "react-scroll-to-top";
+import api from "../../axiosInterceptor";
+import { toast } from "react-toastify";
 const Contact = () => {
   let [showAns, setShowAns] = useState(faqs[0].id);
   const [errors, setErrors] = useState({}); // Validation errors
@@ -15,6 +17,12 @@ const Contact = () => {
     email: "",
     query: "",
   });
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    if (loggedInUser && loggedInUser.email) {
+      setQueryData((prev) => ({ ...prev, email: loggedInUser.email }));
+    }
+  }, []);
   const handleInputChanges = (e) => {
     const { name, value } = e.target;
     setQueryData((prev) => ({ ...prev, [name]: value }));
@@ -37,19 +45,26 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0; // True if no errors
   };
 
-  const handleSubmits = (e) => {
+  const handleSubmits = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Query Submitted:", queryData);
-      setQueryData({
-        name: "",
-        phone: "",
-        email: "",
-        query: "",
-      });
+      try {
+        // Send the query data to the backend
+        await api.post("/queries", queryData);
+        setQueryData({
+          name: "",
+          phone: "",
+          email: "",
+          query: "",
+        });
+        toast.success("Query submitted successfully!");
+      } catch (error) {
+        toast.error("Error submitting query");
+      }
       setErrors({});
     }
   };
+
   return (
     <>
       <Container>
@@ -125,7 +140,7 @@ const Contact = () => {
                 className="form-control mb-2"
                 placeholder="Enter your Email Id"
                 value={queryData.email}
-                onChange={handleInputChanges}
+                disabled
               />
               <label className="form-label">Tell Us Your Query:</label>
               <textarea
@@ -137,7 +152,7 @@ const Contact = () => {
                 onChange={handleInputChanges}
               />
 
-              <input type="submit" value="Contact Us" />
+              <input type="submit" className="bkbtn" value="Contact Us" />
             </form>
           </Col>
         </Row>

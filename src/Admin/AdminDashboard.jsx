@@ -168,6 +168,12 @@ export default function AdminDashboard() {
                 <Button className="btn btn-danger mb-3" onClick={handleLogout}>
                   Logout
                 </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/admin/queries")}
+                >
+                  View Queries
+                </Button>
               </Col>
             </Row>
             <Row>

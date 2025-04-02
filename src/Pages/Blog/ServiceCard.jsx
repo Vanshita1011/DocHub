@@ -47,7 +47,7 @@ export default function ServiceCard({ service }) {
         </ul>
         <Card.Body>
           <Card.Title className="blogtitle p-2">{service.title}</Card.Title>
-          <p className="p-2">{service.data}</p>
+          <p className="p-2 blog-des">{service.data}</p>
         </Card.Body>
         <div className="d-flex p-3 justify-content-between w-100 mw-100">
           <button className="bg-primary blogbtn">

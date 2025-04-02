@@ -1,0 +1,51 @@
+/* General Container Styling */
+.booking-guide-container {
+  padding: 40px 20px;
+}
+
+/* Section Heading */
+.booking-guide-container h2 {
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 30px;
+}
+
+/* Cards Styling */
+.booking-step-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.booking-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Image */
+.booking-step-card img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Card Body */
+.booking-step-card .card-body {
+  padding: 20px;
+}
+
+/* Buttons */
+.booking-guide-container .btn-primary,
+.booking-guide-container .btn-success,
+.booking-guide-container .btn-outline-info {
+  width: 100%;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .booking-guide-container {
+    text-align: center;
+  }
+}

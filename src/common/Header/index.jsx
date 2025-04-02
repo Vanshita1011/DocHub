@@ -99,7 +99,7 @@ export default function Header() {
             </Nav.Link>
             <Nav.Link
               to="/contact-us"
-              as={Link}
+              as={NavLink}
               onClick={() => setExpanded(false)}
             >
               Contact Us

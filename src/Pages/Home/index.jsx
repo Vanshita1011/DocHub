@@ -71,11 +71,7 @@ export default function Home() {
             data-aos-duration="2000"
             className="d-flex justify-content-center"
           >
-            <img
-              src="/images/doc.jpg"
-              className="fr_img img-fluid "
-              alt="img"
-            />
+            <img src="/images/doc.jpg" className="fr_img" alt="img" />
           </Col>
         </Row>
         {/*  */}
