@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import ScrollToTop from "react-scroll-to-top";
 import CarouselComponent from "../../Component/Carousel/CarouselComponent";
 import Counter from "../../Component/Counter/Counter";
@@ -11,14 +11,15 @@ import {
 } from "../../Component/Cards/AllCardData";
 import { HomeBottomCard, HomeCard } from "../../Component/Cards/AllCard";
 import EmailInput from "../../Component/Validation/EmailInput";
+import SuccessModal from "../Bookapp/SuccessModal";
 
 export default function Home() {
-  const [showModal, setShowModal] = useState(false);
+  const [successModal, setSucessModal] = useState(false);
   const [email, setEmail] = useState("");
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (!email.trim()) return; // Prevent form submission if empty
-    setShowModal(true);
+    setSucessModal(true);
     setEmail(""); // Clear the input after successful submission
   };
   return (
@@ -206,22 +207,14 @@ export default function Home() {
                 </form>
               </div>
             </div>
-            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-              <Modal.Header closeButton>
-                <Modal.Title style={{ position: "relative" }}>
-                  Subscription Successful
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>You have sucessfully subscribed to our newsletter!</p>
-                <p>Thank You for Subscription!</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="success" onClick={() => setShowModal(false)}>
-                  OK
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <SuccessModal
+              show={successModal}
+              onHide={() => {
+                setSucessModal(false);
+              }}
+              message1="You have sucessfully subscribed to our newsletter!"
+              message2="Thank you for subscribing"
+            />
           </Col>
           <Col lg={6} md={6} sm={12}></Col>
         </Row>

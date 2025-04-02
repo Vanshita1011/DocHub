@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Bookapp.css";
 import DoctorCard from "./DoctorCard";
-import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Col, Container, Row } from "react-bootstrap";
 import ScrollToTop from "react-scroll-to-top";
 import { toast } from "react-toastify";
 import symptomToSpecialty from "./Symptoms";
@@ -14,6 +12,7 @@ import { validateForm } from "./formUtils";
 import api from "../../axiosInterceptor";
 import AppointmentForm from "./AppointmentForm";
 import SuccessModal from "./SuccessModal";
+import SearchBar from "./SearchBar";
 
 export default function Bookapp() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -170,65 +169,15 @@ export default function Bookapp() {
         </div>
       ) : (
         <>
-          <div className="search-bar">
-            <Container>
-              <h2 className="text-center fw-bold p-4">
-                Search For Best Doctors
-              </h2>
-              <Row>
-                <Col lg={4} sm={12} className="p-2">
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text>
-                      <FontAwesomeIcon icon={faSearch} fade />
-                    </InputGroup.Text>
-                    <Form.Control
-                      type="text"
-                      placeholder="Search by : Doctors"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </InputGroup>
-                </Col>
-                <Col lg={4} sm={12} className="p-2">
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text>
-                      <FontAwesomeIcon icon={faLocationDot} fade />
-                    </InputGroup.Text>
-                    <Form.Select
-                      value={selectedHospital}
-                      onChange={(e) => setSelectedHospital(e.target.value)}
-                    >
-                      <option value="">Select Hospital</option>
-                      {filteredHospitals.map((hospital, index) => (
-                        <option key={index} value={hospital}>
-                          {hospital}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </InputGroup>
-                </Col>
-                <Col lg={4} sm={12} className="p-2">
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text>
-                      <FontAwesomeIcon icon={faSearch} fade />
-                    </InputGroup.Text>
-                    <Form.Select
-                      value={selectedSymptom}
-                      onChange={(e) => setSelectedSymptom(e.target.value)}
-                    >
-                      <option value="">Select Symptom</option>
-                      {Object.keys(symptomToSpecialty).map((symptom, index) => (
-                        <option key={index} value={symptom}>
-                          {symptom}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </InputGroup>
-                </Col>
-              </Row>
-            </Container>
-          </div>
-
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedHospital={selectedHospital}
+            setSelectedHospital={setSelectedHospital}
+            selectedSymptom={selectedSymptom}
+            setSelectedSymptom={setSelectedSymptom}
+            filteredHospitals={filteredHospitals}
+          />
           <div className="doctorcards p-5">
             <div className="abtheading text-center fw-bold">
               <h1
@@ -286,6 +235,7 @@ export default function Bookapp() {
                       filteredHospitals={filteredHospitals}
                       filteredDoctors={filteredDoctors}
                     />
+
                     <SuccessModal
                       show={showSuccessModal}
                       onHide={() => setShowSuccessModal(false)}

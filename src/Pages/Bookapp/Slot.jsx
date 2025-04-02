@@ -2,18 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./slot.css";
-import {
-  Col,
-  Container,
-  Row,
-  Modal,
-  Button,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Col, Container, Row, Alert, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import api from "../../axiosInterceptor";
 import SuccessModal from "./SuccessModal";
+import AppointmentForm from "./AppointmentForm";
+import { validateForm } from "./formUtils";
 
 const Slot = ({ doctor }) => {
   const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
@@ -102,35 +96,37 @@ const Slot = ({ doctor }) => {
   };
 
   // Function to validate form
-  const validateForm = () => {
-    let newErrors = {};
-    const nameRegex = /^[A-Za-z\s]+$/;
-    const mobileRegex = /^[0-9]{10}$/;
-    const ageRegex = /^[1-9][0-9]?$|^120$/; // Age between 1 and 120
+  // const validateForm = () => {
+  //   let newErrors = {};
+  //   const nameRegex = /^[A-Za-z\s]+$/;
+  //   const mobileRegex = /^[0-9]{10}$/;
+  //   const ageRegex = /^[1-9][0-9]?$|^120$/; // Age between 1 and 120
 
-    if (!nameRegex.test(formData.name)) {
-      newErrors.name = "Name should contain only alphabets";
-    }
+  //   if (!nameRegex.test(formData.name)) {
+  //     newErrors.name = "Name should contain only alphabets";
+  //   }
 
-    if (!mobileRegex.test(formData.phone)) {
-      newErrors.phone = "Mobile Number should be exactly 10 digits";
-    }
+  //   if (!mobileRegex.test(formData.phone)) {
+  //     newErrors.phone = "Mobile Number should be exactly 10 digits";
+  //   }
 
-    if (!ageRegex.test(formData.age)) {
-      newErrors.age = "Age should be a valid number between 1 and 120";
-    }
-    if (!formData.gender) {
-      newErrors.gender = "gender is required.";
-    }
+  //   if (!ageRegex.test(formData.age)) {
+  //     newErrors.age = "Age should be a valid number between 1 and 120";
+  //   }
+  //   if (!formData.gender) {
+  //     newErrors.gender = "gender is required.";
+  //   }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Returns true if no errors
-  };
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0; // Returns true if no errors
+  // };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     try {
       const response = await api.post("/slots/book-slot", {
@@ -244,149 +240,16 @@ const Slot = ({ doctor }) => {
           <Modal.Title className="fw-bold">Book an Appointment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit} className="book-form">
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-              {errors.name && (
-                <p
-                  className="text-danger bg-warning mx-auto rounded m-1"
-                  style={{ width: "98%" }}
-                >
-                  {errors.name}
-                </p>
-              )}
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Mobile Number</Form.Label>
-              <Form.Control
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-              {errors.phone && (
-                <p
-                  className="text-danger bg-warning mx-auto rounded m-1"
-                  style={{ width: "98%" }}
-                >
-                  {errors.phone}
-                </p>
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Age</Form.Label>
-              <Form.Control
-                type="number"
-                name="age"
-                value={formData.age || ""}
-                onChange={handleInputChange}
-                style={{ width: "98%", margin: "auto" }}
-              />
-              {errors.age && (
-                <p
-                  className="text-danger bg-warning mx-auto rounded m-1"
-                  style={{ width: "98%" }}
-                >
-                  {errors.age}
-                </p>
-              )}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Gender</Form.Label>
-              <div className="d-flex gap-3 ms-2">
-                <Form.Check
-                  type="radio"
-                  label="Male"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === "male"}
-                  onChange={handleInputChange}
-                  style={{ color: "white" }}
-                />
-                <Form.Check
-                  type="radio"
-                  label="Female"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === "female"}
-                  onChange={handleInputChange}
-                  style={{ color: "white" }}
-                />
-              </div>
-              {errors.gender && (
-                <p
-                  className="text-danger bg-warning mx-auto rounded m-1"
-                  style={{ width: "98%" }}
-                >
-                  {errors.gender}
-                </p>
-              )}
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Date:</Form.Label>
-              <Form.Control
-                type="text"
-                name="appointmentDate"
-                value={formData.appointmentDate || ""}
-                readOnly
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Time:</Form.Label>
-              <Form.Control
-                type="text"
-                name="timeSlot"
-                value={formData.timeSlot || ""}
-                readOnly
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Hospital:</Form.Label>
-              <Form.Control
-                type="text"
-                name="hospital"
-                value={formData.hospital || ""}
-                readOnly
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ padding: "6px" }}>Doctor:</Form.Label>
-              <Form.Control
-                type="text"
-                name="doctor"
-                value={formData.doctor || ""}
-                readOnly
-                style={{ width: "98%", margin: "auto" }}
-              />
-            </Form.Group>
-
-            <Button
-              variant="dark"
-              type="submit"
-              style={{ display: "flex", justifySelf: "center" }}
-            >
-              Submit
-            </Button>
-          </Form>
+          <AppointmentForm
+            formData={formData}
+            errors={errors}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            filteredHospitals={[doctor.hospital]} // Filtered hospitals can be passed here
+            filteredDoctors={[doctor]} // Filtered doctors can be passed here
+          />
         </Modal.Body>
       </Modal>
-
       {/* Success Modal */}
       <SuccessModal
         show={showSuccessModal}

@@ -124,8 +124,11 @@ const AppointmentForm = ({
           name="hospital"
           value={formData.hospital}
           onChange={handleInputChange}
+          placeholder="Choose preferred Hospital"
         >
-          <option value="">Choose preferred Hospital</option>
+          <option value="" diasbled hidden>
+            Choose preferred Hospital
+          </option>
           {filteredHospitals.map((hospital, index) => (
             <option key={index} value={hospital}>
               {hospital}
@@ -145,8 +148,11 @@ const AppointmentForm = ({
           value={formData.doctor}
           onChange={handleInputChange}
           disabled={!formData.hospital}
+          placeholder="Choose preferred Doctor"
         >
-          <option value="">Choose preferred Doctor</option>
+          <option value="" disabled hidden>
+            Choose preferred Doctor
+          </option>
           {filteredDoctors
             .filter((doctor) => doctor.hospital === formData.hospital)
             .map((doctor, index) => (

@@ -1,11 +1,13 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const SuccessModal = ({ show, onHide }) => {
+const SuccessModal = ({ show, onHide, title, message1, message2 }) => {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title style={{ position: "relative" }}>Success</Modal.Title>
+        <Modal.Title style={{ position: "relative" }}>
+          {title || "Success"}
+        </Modal.Title>
         <img
           src="/images/tick.png"
           alt=""
@@ -19,8 +21,8 @@ const SuccessModal = ({ show, onHide }) => {
         />
       </Modal.Header>
       <Modal.Body>
-        <p>Your appointment is successfully booked!</p>
-        <p>Thank You for booking an appointment!</p>
+        <p>{message1 || "Your appointment is successfully booked!"}</p>
+        <p>{message2 || "Thank You for booking an appointment!"}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="success" onClick={onHide}>
