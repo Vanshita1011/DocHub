@@ -165,11 +165,12 @@ export default function AdminDashboard() {
               <Col>
                 <h2 className="text-custom">Admin Dashboard</h2>
                 <p>{message}</p>
-                <Button className="btn btn-danger mb-3" onClick={handleLogout}>
+                <Button className="btn btn-danger m-3" onClick={handleLogout}>
                   Logout
                 </Button>
                 <Button
                   variant="primary"
+                  className="m-3"
                   onClick={() => navigate("/admin/queries")}
                 >
                   View Queries

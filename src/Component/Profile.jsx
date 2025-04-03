@@ -24,6 +24,7 @@ const Profile = () => {
   const [cancelType, setCancelType] = useState(null);
   const [cancelId, setCancelId] = useState(null);
   const [loading, setLoading] = useState(true); // Loader state
+  const [queries, setQueries] = useState([]);
 
   const [userData, setUserData] = useState({
     name: "",
@@ -39,6 +40,15 @@ const Profile = () => {
 
   useEffect(() => {
     if (userEmail) {
+      api
+        .get(`/queries`)
+        .then((response) => {
+          const userQueries = response.data.filter(
+            (q) => q.email === userEmail
+          );
+          setQueries(userQueries);
+        })
+        .catch((error) => console.error("Error fetching user queries:", error));
       api
         .get(`/users/${userEmail}`)
         .then((response) => setUserData(response.data))
@@ -465,6 +475,26 @@ const Profile = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <div>
+        <h3>Your Queries</h3>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Query</th>
+              <th>Admin Response</th>
+            </tr>
+          </thead>
+          <tbody>
+            {queries.map((query) => (
+              <tr key={query._id}>
+                <td>{query.query}</td>
+                <td>{query.adminResponse || "Pending"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
       <ScrollToTop smooth color="#028885" />
     </>
   );
