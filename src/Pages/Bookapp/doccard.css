@@ -8,6 +8,7 @@
   transform: scale(1.1); */
   transition-duration: 0.6s;
   transform: scale(1.1);
+  cursor: pointer;
 }
 .doccard img {
   height: 250px;

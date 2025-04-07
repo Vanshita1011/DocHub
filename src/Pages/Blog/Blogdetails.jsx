@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Header from "../../common/Header";
-import Footer from "../../common/footer";
+
 import { Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -128,7 +127,6 @@ export default function Blogdetails() {
 
   return (
     <>
-      <Header />
       <Container>
         <Row>
           <Col lg={12}>
@@ -181,7 +179,6 @@ export default function Blogdetails() {
         </Row>
       </Container>
       <ScrollToTop smooth color="#028885" />
-      <Footer />
     </>
   );
 }

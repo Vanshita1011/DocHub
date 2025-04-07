@@ -8,6 +8,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import ScrollToTop from "react-scroll-to-top";
 import api from "../../axiosInterceptor";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Contact = () => {
   let [showAns, setShowAns] = useState(faqs[0].id);
   const [errors, setErrors] = useState({}); // Validation errors
@@ -17,6 +18,8 @@ const Contact = () => {
     email: "",
     query: "",
   });
+  const navigate = useNavigate();
+
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
     if (loggedInUser && loggedInUser.email) {
@@ -47,6 +50,12 @@ const Contact = () => {
 
   const handleSubmits = async (e) => {
     e.preventDefault();
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    if (!loggedInUser || !loggedInUser.email) {
+      toast.warn("Please sign in to submit your query.");
+      navigate("/signin"); // Replace with your actual sign-in route
+      return;
+    }
     if (validateForm()) {
       try {
         // Send the query data to the backend

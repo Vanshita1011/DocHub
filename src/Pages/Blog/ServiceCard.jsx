@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 export default function ServiceCard({ service }) {
   return (
     <Col lg={4} md={4} sm={12} className="mb-4">
-      <Card>
+      <Card className="blogcard">
         <Card.Img
           variant="top"
           src={service.img}

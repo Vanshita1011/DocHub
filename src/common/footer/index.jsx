@@ -135,11 +135,6 @@ export default function Footer() {
                     </li>
                     <li>
                       <Link to={"/book-appoinment"} className="link">
-                        SMS Booking
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/book-appoinment"} className="link">
                         Services
                       </Link>
                     </li>

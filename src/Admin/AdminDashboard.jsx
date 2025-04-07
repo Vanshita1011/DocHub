@@ -113,21 +113,19 @@ export default function AdminDashboard() {
     formDataToSend.append("password", formData.password);
 
     if (formData.img instanceof File) {
-      // Append new image only if a new image is selected
-      formDataToSend.append("img", formData.img);
-    } else {
-      // Keep the old image if no new image is selected
-      formDataToSend.append(
-        "img",
-        doctors.find((doc) => doc._id === editingId)?.img || ""
-      );
+      formDataToSend.append("img", formData.img); // Append the image file
     }
+
     try {
       if (editingId) {
-        await api.put(`/doctors/updateDoctor/${editingId}`, formDataToSend);
+        await api.put(`/doctors/updateDoctor/${editingId}`, formDataToSend, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("Doctor updated successfully!");
       } else {
-        await api.post("/doctors/addDoctor", formDataToSend);
+        await api.post("/doctors/addDoctor", formDataToSend, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("Doctor added successfully!");
       }
       setShow(false);
