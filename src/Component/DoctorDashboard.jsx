@@ -13,7 +13,6 @@ import "./DoctorDashboard.css";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
-import DoctorCalendar from "./DoctorCalendar";
 
 export default function DoctorDashboard() {
   const { logout } = useUser();
@@ -343,7 +342,6 @@ export default function DoctorDashboard() {
                 </div>
               </Col>
             </Row>
-            <DoctorCalendar />
           </Container>
         </>
       )}
