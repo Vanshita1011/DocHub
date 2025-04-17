@@ -14,6 +14,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
+import DoctorFilters from "./DoctorFilters";
+import DoctorTable from "./DoctorTable";
+import DoctorFormModal from "./DoctorFormModal";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 export default function AdminDashboard() {
   const { logout } = useUser(); // Use the logout function
@@ -24,6 +28,11 @@ export default function AdminDashboard() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [doctorToDelete, setDoctorToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedHospital, setSelectedHospital] = useState("");
+  const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const doctorsPerPage = 5;
 
   const [formData, setFormData] = useState({
     img: "",
@@ -146,6 +155,23 @@ export default function AdminDashboard() {
     }
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedHospital, selectedSpeciality]);
+
+  const filteredDoctors = doctors.filter((doc) => {
+    return (
+      doc.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (selectedHospital === "" || doc.hospital === selectedHospital) &&
+      (selectedSpeciality === "" || doc.title === selectedSpeciality)
+    );
+  });
+
+  const indexOfLast = currentPage * doctorsPerPage;
+  const indexOfFirst = indexOfLast - doctorsPerPage;
+  const currentDoctors = filteredDoctors.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredDoctors.length / doctorsPerPage);
+
   return (
     <>
       {loading ? (
@@ -189,213 +215,90 @@ export default function AdminDashboard() {
                 </Button>
               </Col>
             </Row>
+
+            <DoctorFilters
+              searchQuery={searchQuery}
+              selectedHospital={selectedHospital}
+              selectedSpeciality={selectedSpeciality}
+              doctors={doctors}
+              onSearchChange={setSearchQuery}
+              onHospitalChange={setSelectedHospital}
+              onSpecialityChange={setSelectedSpeciality}
+              onClearFilters={() => {
+                setSearchQuery("");
+                setSelectedHospital("");
+                setSelectedSpeciality("");
+              }}
+            />
             <Row>
               <Col style={{ overflowX: "auto" }}>
-                <Table striped bordered hover responsive className="mt-3">
-                  <thead>
-                    <tr>
-                      <th>Image</th>
-                      <th>Name</th>
-                      <th>Title</th>
-                      <th>Hospital</th>
-                      <th>Experience</th>
-                      <th>Fee</th>
-                      <th>About</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {doctors.map((doc) => (
-                      <tr key={doc._id}>
-                        <td>
-                          <img
-                            src={doc.img}
-                            alt="doctor"
-                            style={{ width: "100px" }}
-                          />
-                        </td>
-                        <td>{doc.name}</td>
-                        <td>{doc.title}</td>
-                        <td>{doc.hospital}</td>
-                        <td>{doc.experience}</td>
-                        <td>{doc.fee}</td>
-                        <td>{doc.about}</td>
-                        <td>
-                          <Button
-                            className="m-1"
-                            variant="secondary"
-                            onClick={() =>
-                              navigate(`/admin/appointments/${doc._id}`)
-                            }
-                          >
-                            View
-                          </Button>
-                          <Button
-                            className="m-1"
-                            variant="warning"
-                            onClick={() => {
-                              setShow(true);
-                              setEditingId(doc._id);
-                              setFormData(doc);
-                            }}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            className="m-1"
-                            variant="danger"
-                            onClick={() => handleShowDeleteModal(doc._id)}
-                          >
-                            Delete
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                <Row>
+                  <Col lg={10}>
+                    <h5 className="mt-2 text-custom">
+                      Showing {currentDoctors.length} of{" "}
+                      {filteredDoctors.length} doctors (Total: {doctors.length})
+                    </h5>
+                  </Col>
+                </Row>
+
+                <DoctorTable
+                  doctors={currentDoctors}
+                  onView={(id) => navigate(`/admin/appointments/${id}`)}
+                  onEdit={(doc) => {
+                    setShow(true);
+                    setEditingId(doc._id);
+                    setFormData(doc);
+                  }}
+                  onDelete={handleShowDeleteModal}
+                />
+
+                <div className="d-flex justify-content-center m-3 ">
+                  <Button
+                    variant="secondary"
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="mx-1"
+                  >
+                    Previous
+                  </Button>
+                  <span className="align-self-center mx-2">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <Button
+                    variant="secondary"
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="mx-1"
+                  >
+                    Next
+                  </Button>
+                </div>
               </Col>
             </Row>
 
             {/* Modal for Adding/Editing Doctor */}
-            <Modal show={show} onHide={() => setShow(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>
-                  {editingId ? "Edit Doctor" : "Add Doctor"}
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form className="book-form" onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="p-2">Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formData.title}
-                      onChange={(e) =>
-                        setFormData({ ...formData, title: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Hospital</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formData.hospital}
-                      onChange={(e) =>
-                        setFormData({ ...formData, hospital: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Experience</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formData.experience}
-                      onChange={(e) =>
-                        setFormData({ ...formData, experience: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Fee</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={formData.fee}
-                      onChange={(e) =>
-                        setFormData({ ...formData, fee: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>About</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      value={formData.about}
-                      onChange={(e) =>
-                        setFormData({ ...formData, about: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Image</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        setFormData({ ...formData, img: e.target.files[0] });
-                      }}
-                      required={!editingId} // Required only when adding a new doctor
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
-                      required={!editingId} // Required only when adding a doctor
-                    />
-                  </Form.Group>
-
-                  <Button
-                    variant="dark"
-                    type="submit"
-                    className="mt-3 d-flex "
-                    style={{ justifySelf: "center" }}
-                  >
-                    {editingId ? "Update" : "Add"}
-                  </Button>
-                </Form>
-              </Modal.Body>
-            </Modal>
+            <DoctorFormModal
+              show={show}
+              onHide={() => setShow(false)}
+              onSubmit={handleSubmit}
+              formData={formData}
+              setFormData={setFormData}
+              editingId={editingId}
+            />
           </Container>
         </>
       )}
 
       {/* Delete Confirmation Modal */}
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this doctor?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleConfirmDelete}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </>
   );
 }

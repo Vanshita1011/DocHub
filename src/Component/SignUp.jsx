@@ -18,6 +18,7 @@ const Register = () => {
   const [age, setAge] = useState("");
   const [mobile, setMobile] = useState("");
   const [gender, setGender] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -93,16 +94,24 @@ const Register = () => {
     if (!validateForm()) {
       return;
     }
-
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("age", age);
+    formData.append("mobile", mobile);
+    formData.append("gender", gender);
+    formData.append("dateOfBirth", dateOfBirth);
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+    }
     try {
-      await axios.post("https://doc-hub-b.vercel.app/api/auth/register", {
-        email,
-        password,
-        age,
-        mobile,
-        gender,
-        dateOfBirth,
-      });
+      await axios.post(
+        "https://doc-hub-b.vercel.app/api/auth/register",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setSuccessMessage("Registration successful!");
       setError("");
 
@@ -227,6 +236,16 @@ const Register = () => {
               <Form.Control.Feedback type="invalid">
                 {fieldErrors.gender}
               </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-dark">
+                Profile Image (Optional):
+              </Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={(e) => setProfileImage(e.target.files[0])}
+              />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mb-3">
               Create account
