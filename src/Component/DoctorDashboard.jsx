@@ -147,47 +147,6 @@ export default function DoctorDashboard() {
             <Row>
               {/* Left Side: Doctor Profile */}
               <Col md={12} lg={4}>
-                <Card className="mt-3">
-                  <Card.Body>
-                    <h5>Create New Available Slot</h5>
-                    <Form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const date = e.target.date.value;
-                        const time = e.target.time.value;
-                        const doctorId = localStorage.getItem("doctorId");
-
-                        try {
-                          const res = await api.post("/slots", {
-                            doctorId,
-                            appointmentDate: date,
-                            timeSlot: time,
-                            doctorName: doctor.name,
-                            hospital: doctor.hospital,
-                          });
-                          setSlots((prev) => [...prev, res.data]);
-                          e.target.reset();
-                        } catch (err) {
-                          console.error("Error creating slot:", err);
-                          alert("Failed to create slot.");
-                        }
-                      }}
-                    >
-                      <Form.Group className="mb-2">
-                        <Form.Label>Date</Form.Label>
-                        <Form.Control type="date" name="date" required />
-                      </Form.Group>
-                      <Form.Group className="mb-2">
-                        <Form.Label>Time</Form.Label>
-                        <Form.Control type="time" name="time" required />
-                      </Form.Group>
-                      <Button type="submit" variant="success">
-                        Add Slot
-                      </Button>
-                    </Form>
-                  </Card.Body>
-                </Card>
-
                 <Card className="profile-card">
                   <Card.Body className="text-center">
                     {/* Profile Picture (First Letter) */}

@@ -30,8 +30,6 @@ const Slot = ({ doctor }) => {
     gender: "",
   });
   const [user, setUser] = useState(null);
-  const [availableSlots, setAvailableSlots] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -179,21 +177,6 @@ const Slot = ({ doctor }) => {
     setShowFormModal(true);
   };
 
-  useEffect(() => {
-    const fetchAvailableSlots = async () => {
-      try {
-        const response = await api.get(`/slots/doctor/${doctor._id}`); // assuming doctor._id is passed as prop
-        setAvailableSlots(response.data);
-      } catch (err) {
-        console.error("Error fetching slots:", err);
-      }
-    };
-
-    if (doctor?._id) {
-      fetchAvailableSlots();
-    }
-  }, [doctor]);
-
   return (
     <>
       <Container className="text-center my-4">
@@ -201,20 +184,18 @@ const Slot = ({ doctor }) => {
 
         {/* Days Selection */}
         <Row className="mt-3 justify-content-start">
-          {availableSlots
-            .filter((slot) => slot.appointmentDate === selectedDay)
-            .map((slot, index) => (
-              <Col key={index} lg={2} sm={4} md={3} xs={4} className="mb-2">
-                <button
-                  className={`time-btn w-100 p-2 ${
-                    selectedTime === slot.timeSlot ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedTime(slot.timeSlot)}
-                >
-                  {slot.timeSlot}
-                </button>
-              </Col>
-            ))}
+          {days.map((date, index) => (
+            <Col key={index} sm={2} md={2} xs={3} className="mb-2">
+              <button
+                className={`day-btn rounded-5 d-flex flex-column align-items-center p-2 w-100 ${
+                  selectedDay === date ? "selected" : ""
+                }`}
+                onClick={() => setSelectedDay(date)}
+              >
+                <span className="date-text">{date}</span>
+              </button>
+            </Col>
+          ))}
         </Row>
         <h5 className="text-start text-custom">Time slots</h5>
         {/* Time Selection */}
