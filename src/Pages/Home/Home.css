@@ -23,7 +23,7 @@
   background: var(--secondary-color);
 }
 
-span {
+.special {
   font-weight: bold;
   font-family: "Jua", Arial, Helvetica;
   font-size: larger;

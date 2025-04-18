@@ -17,7 +17,7 @@
 .day-text,
 .date-text {
   font-weight: normal;
-  color: black;
+  /* color: black; */
   font-family: Arial, Helvetica,  sans-serif;
 }
 .book-btn {

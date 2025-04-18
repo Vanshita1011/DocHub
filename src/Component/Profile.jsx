@@ -368,7 +368,7 @@ const Profile = () => {
                                 item.appointmentDate,
                                 item.timeSlot
                               ) ? (
-                                <Button variant="secondary" disabled>
+                                <Button className="btn-success" disabled>
                                   Completed
                                 </Button>
                               ) : (

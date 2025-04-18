@@ -36,7 +36,10 @@ export default function Home() {
             <div className="align-self-center one_click fade-in-down">
               <h2 data-aos="fade-up" data-aos-duration="3000">
                 Bring Care to Your <br />
-                <span style={{ color: "#028885", fontFamily: "Arial" }}>
+                <span
+                  className="special"
+                  style={{ color: "#028885", fontFamily: "Arial" }}
+                >
                   Home With One Click
                 </span>
               </h2>
@@ -46,13 +49,13 @@ export default function Home() {
                 data-aos="fade-up"
                 data-aos-duration="3000"
               >
-                Welcome to <span>DOCHUB</span>, where compassionate care meets
-                medical excellence. Our state-of-the-art facility offers
-                advanced treatments, expert specialists, and personalized
-                healthcare services. From emergency care to specialized
-                treatments, we prioritize patient well-being, safety, and
-                comfort. Experience world-class healthcare with us—your trusted
-                partner in health and healing.
+                Welcome to <span className="special">DOCHUB</span>, where
+                compassionate care meets medical excellence. Our
+                state-of-the-art facility offers advanced treatments, expert
+                specialists, and personalized healthcare services. From
+                emergency care to specialized treatments, we prioritize patient
+                well-being, safety, and comfort. Experience world-class
+                healthcare with us—your trusted partner in health and healing.
               </p>
               <div
                 className="click_abt align-items-center"
@@ -83,17 +86,21 @@ export default function Home() {
           <h2 data-aos="fade-up" data-aos-duration="3000">
             We Made It Simple
             <br />
-            <span style={{ color: "#028885", fontFamily: "Arial" }}>
+            <span
+              className="special"
+              style={{ color: "#028885", fontFamily: "Arial" }}
+            >
               How It Works
             </span>
           </h2>
           <p data-aos="fade-up" data-aos-duration="2000">
-            At <span>DOCHUB</span>, we’ve made healthcare simple. Our seamless
-            process ensures easy appointment booking, quick check-ins, expert
-            consultations, and hassle-free treatments. With advanced technology
-            and compassionate care, we prioritize your well-being at every step.
-            Experience a smooth, patient-friendly journey—from diagnosis to
-            recovery—with us. Your health, made simple!
+            At <span className="special">DOCHUB</span>, we’ve made healthcare
+            simple. Our seamless process ensures easy appointment booking, quick
+            check-ins, expert consultations, and hassle-free treatments. With
+            advanced technology and compassionate care, we prioritize your
+            well-being at every step. Experience a smooth, patient-friendly
+            journey—from diagnosis to recovery—with us. Your health, made
+            simple!
           </p>
           <div className="container d-flex justify-content-around">
             {homeCardData.map((v, i) => (
@@ -185,7 +192,7 @@ export default function Home() {
               <h1>
                 <em>We have some</em>
                 <br />
-                <span>
+                <span className="special">
                   <strong>Good news</strong>
                 </span>
               </h1>
