@@ -36,7 +36,7 @@ export default function DoctorDashboard() {
     e.preventDefault();
     try {
       const doctorId = localStorage.getItem("doctorId");
-      await api.post("/availability/create", {
+      await api.post("/api/availability/create", {
         doctorId,
         appointmentDate: availDate,
         timeSlot: availTime,
