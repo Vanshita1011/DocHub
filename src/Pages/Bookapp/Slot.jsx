@@ -1,4 +1,3 @@
-// Slot.jsx (Full File with Availability Integration)
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,9 +16,8 @@ const Slot = ({ doctor }) => {
   const [selectedTime, setSelectedTime] = useState("");
   const [showFormModal, setShowFormModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [showAlert, setShowAlert] = useState(false);
-  const [availableSlots, setAvailableSlots] = useState({});
+  const [errors, setErrors] = useState({}); // For validation errors
+  const [showAlert, setShowAlert] = useState(false); // For displaying alert message
   const [formData, setFormData] = useState({
     userEmail: userEmail,
     name: "",
@@ -45,40 +43,85 @@ const Slot = ({ doctor }) => {
     };
 
     fetchUser();
-    window.addEventListener("storage", fetchUser);
+    window.addEventListener("storage", fetchUser); // Listen for storage updates
 
     return () => {
       window.removeEventListener("storage", fetchUser);
     };
   }, []);
 
-  useEffect(() => {
-    const fetchAvailability = async () => {
-      try {
-        const response = await api.get(`/availability/doctor/${doctor._id}`);
-        const grouped = {};
-        (response.data || []).forEach((slot) => {
-          if (!slot.isBooked) {
-            grouped[slot.appointmentDate] = grouped[slot.appointmentDate] || [];
-            grouped[slot.appointmentDate].push(slot.timeSlot);
-          }
-        });
-        setAvailableSlots(grouped);
-      } catch (err) {
-        console.error("Error loading availability", err);
+  // Generate time slots from 8 AM to 8 PM with 30 minutes interval
+  const generateTimeSlots = (selectedDate) => {
+    const slots = [];
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+
+    for (let hour = 8; hour <= 20; hour++) {
+      const slotTime = new Date(selectedDate);
+      slotTime.setHours(hour, 0, 0, 0);
+      if (selectedDate !== today || slotTime > now) {
+        slots.push(`${hour}:00`);
       }
-    };
-    if (doctor?._id) fetchAvailability();
-  }, [doctor]);
 
-  const days = Object.keys(availableSlots);
-  const times = selectedDay ? availableSlots[selectedDay] : [];
+      if (hour !== 20) {
+        const slotTimeHalf = new Date(selectedDate);
+        slotTimeHalf.setHours(hour, 30, 0, 0);
+        if (selectedDate !== today || slotTimeHalf > now) {
+          slots.push(`${hour}:30`);
+        }
+      }
+    }
+    return slots;
+  };
 
+  // Generate date slots for the next 10 days
+  const generateDateSlots = () => {
+    const slots = [];
+    const today = new Date();
+    for (let i = 0; i < 10; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      slots.push(date.toISOString().split("T")[0]); // Format date as YYYY-MM-DD
+    }
+    return slots;
+  };
+
+  const days = generateDateSlots();
+  const times = generateTimeSlots(selectedDay);
+
+  // Function to handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Function to validate form
+  // const validateForm = () => {
+  //   let newErrors = {};
+  //   const nameRegex = /^[A-Za-z\s]+$/;
+  //   const mobileRegex = /^[0-9]{10}$/;
+  //   const ageRegex = /^[1-9][0-9]?$|^120$/; // Age between 1 and 120
+
+  //   if (!nameRegex.test(formData.name)) {
+  //     newErrors.name = "Name should contain only alphabets";
+  //   }
+
+  //   if (!mobileRegex.test(formData.phone)) {
+  //     newErrors.phone = "Mobile Number should be exactly 10 digits";
+  //   }
+
+  //   if (!ageRegex.test(formData.age)) {
+  //     newErrors.age = "Age should be a valid number between 1 and 120";
+  //   }
+  //   if (!formData.gender) {
+  //     newErrors.gender = "gender is required.";
+  //   }
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0; // Returns true if no errors
+  // };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm(formData);
@@ -86,12 +129,12 @@ const Slot = ({ doctor }) => {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      const response = await api.post("/availability/book", {
-        appointmentDate: selectedDay,
-        timeSlot: selectedTime,
+      const response = await api.post("/slots/book-slot", {
+        ...formData,
+        doctorName: formData.doctor, //  Send doctor name, backend will convert to ObjectId
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setShowFormModal(false);
         setShowSuccessModal(true);
         setFormData({
@@ -116,6 +159,7 @@ const Slot = ({ doctor }) => {
     }
   };
 
+  // Handle book button click
   const handleBookClick = () => {
     if (!user) {
       navigate("/signIn");
@@ -154,7 +198,6 @@ const Slot = ({ doctor }) => {
           ))}
         </Row>
         <h5 className="text-start text-custom">Time slots</h5>
-
         {/* Time Selection */}
         <Row className="mt-3 justify-content-start">
           {times.map((time, index) => (
@@ -171,6 +214,8 @@ const Slot = ({ doctor }) => {
           ))}
         </Row>
 
+        {/* Book Button */}
+        {/* Alert Message */}
         {showAlert && (
           <Alert
             variant="danger"
@@ -181,7 +226,7 @@ const Slot = ({ doctor }) => {
             Please select both a date and time slot to book an appointment.
           </Alert>
         )}
-
+        {/* Book Button */}
         <div className="mt-4">
           <button className="book-btn px-4 py-2" onClick={handleBookClick}>
             Book an appointment
@@ -200,12 +245,12 @@ const Slot = ({ doctor }) => {
             errors={errors}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
-            filteredHospitals={[doctor.hospital]}
-            filteredDoctors={[doctor]}
+            filteredHospitals={[doctor.hospital]} // Filtered hospitals can be passed here
+            filteredDoctors={[doctor]} // Filtered doctors can be passed here
           />
         </Modal.Body>
       </Modal>
-
+      {/* Success Modal */}
       <SuccessModal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}
