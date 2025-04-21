@@ -13,6 +13,7 @@ import "./DoctorDashboard.css";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
+import { toast } from "react-toastify";
 
 export default function DoctorDashboard() {
   const { logout } = useUser();
@@ -20,6 +21,8 @@ export default function DoctorDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [slots, setSlots] = useState([]);
   const [doctorName, setDoctorName] = useState("");
+  const [availDate, setAvailDate] = useState("");
+  const [availTime, setAvailTime] = useState("");
   const [loading, setLoading] = useState(true);
   const [doctor, setDoctor] = useState({
     name: "",
@@ -28,6 +31,23 @@ export default function DoctorDashboard() {
     hospital: "",
     img: "",
   });
+
+  const handleAddAvailability = async (e) => {
+    e.preventDefault();
+    try {
+      const doctorId = localStorage.getItem("doctorId");
+      await api.post("/availability/create", {
+        doctorId,
+        appointmentDate: availDate,
+        timeSlot: availTime,
+      });
+      toast.success("Availability added");
+      setAvailDate("");
+      setAvailTime("");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error adding availability");
+    }
+  };
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
@@ -342,6 +362,29 @@ export default function DoctorDashboard() {
                 </div>
               </Col>
             </Row>
+            <Form onSubmit={handleAddAvailability} className="mt-4">
+              <Form.Group>
+                <Form.Label>Available Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={availDate}
+                  onChange={(e) => setAvailDate(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Available Time</Form.Label>
+                <Form.Control
+                  type="time"
+                  value={availTime}
+                  onChange={(e) => setAvailTime(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Button className="mt-2" type="submit">
+                Add Availability
+              </Button>
+            </Form>
           </Container>
         </>
       )}
