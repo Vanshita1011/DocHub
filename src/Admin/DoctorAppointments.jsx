@@ -8,9 +8,19 @@ export default function DoctorAppointments() {
   const { doctorId } = useParams();
   const [appointments, setAppointments] = useState([]);
   const [slots, setSlots] = useState([]);
+  const [doctorName, setDoctorName] = useState(""); // State for doctor's name
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchDoctorDetails = async () => {
+      try {
+        const response = await api.get(`/doctors/${doctorId}`); // Fetch doctor details
+        setDoctorName(response.data.name); // Set the doctor's name
+      } catch (error) {
+        console.error("Error fetching doctor details:", error);
+      }
+    };
+
     const fetchAppointments = async () => {
       setLoading(true);
       try {
@@ -53,6 +63,7 @@ export default function DoctorAppointments() {
       }
     };
 
+    fetchDoctorDetails(); // Fetch doctor's name
     fetchAppointments();
     fetchSlots();
   }, [doctorId]);
@@ -79,6 +90,7 @@ export default function DoctorAppointments() {
     // If same date, sort by time
     return a.timeSlot.localeCompare(b.timeSlot);
   });
+
   return (
     <>
       {loading ? (
@@ -89,55 +101,51 @@ export default function DoctorAppointments() {
           <BeatLoader color="#6c63ff" />
         </div>
       ) : (
-        <>
-          <Container className="mt-5">
-            <Row>
-              <Col>
-                <h2>Appointments and Slots for Doctor</h2>
-                <Table striped bordered hover responsive className="mt-3">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Time Slot</th>
-                      <th>Name</th>
-                      <th>Mobile</th>
-                      <th>Age</th>
-                      <th>Gender</th>
-                      <th>Status</th>
+        <Container className="mt-5">
+          <Row>
+            <Col>
+              <h2>Appointments and Slots for {doctorName}</h2>{" "}
+              {/* Updated heading */}
+              <Table striped bordered hover responsive className="mt-3">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mergedData.map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.appointmentDate}</td>
+                      <td>{item.timeSlot}</td>
+                      <td>{item.name}</td>
+                      <td>{item.phone}</td>
+                      <td>{item.age}</td>
+                      <td>{item.gender}</td>
+                      <td
+                        className={
+                          item.status === "Completed"
+                            ? "text-success"
+                            : "text-danger"
+                        }
+                      >
+                        {item.status}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {mergedData.map((item) => (
-                      <tr key={item._id}>
-                        <td>{item.appointmentDate}</td>
-                        <td>{item.timeSlot}</td>
-                        <td>{item.name}</td>
-                        <td>{item.phone}</td>
-                        <td>{item.age}</td>
-                        <td>{item.gender}</td>
-                        <td
-                          className={
-                            item.status === "Completed"
-                              ? "text-success"
-                              : "text-danger"
-                          }
-                        >
-                          {item.status}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-                <Button
-                  variant="secondary"
-                  onClick={() => window.history.back()}
-                >
-                  Back
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </>
+                  ))}
+                </tbody>
+              </Table>
+              <Button variant="secondary" onClick={() => window.history.back()}>
+                Back
+              </Button>
+            </Col>
+          </Row>
+        </Container>
       )}
     </>
   );

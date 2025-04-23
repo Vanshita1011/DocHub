@@ -47,6 +47,9 @@ const AdminQueries = () => {
   return (
     <Container className="mt-4">
       <ToastContainer position="top-right" autoClose={3000} />
+      <Button variant="secondary" onClick={() => window.history.back()}>
+        Back
+      </Button>
       <h2 className="text-center mb-4">Admin Queries</h2>
       <Row>
         {queries.map((query) => (

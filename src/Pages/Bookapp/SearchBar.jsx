@@ -10,8 +10,11 @@ const SearchBar = ({
   selectedHospital,
   setSelectedHospital,
   selectedSymptom,
+  selectedSpeciality,
+  setSelectedSpeciality,
   setSelectedSymptom,
   filteredHospitals,
+  specialities,
 }) => {
   return (
     <div className="search-bar">
@@ -19,7 +22,7 @@ const SearchBar = ({
         <h2 className="text-center fw-bold p-4">Search For Best Doctors</h2>
 
         <Row>
-          <Col lg={4} sm={12} className="p-2">
+          <Col lg={3} sm={12} className="p-2">
             <InputGroup className="mb-3">
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faSearch} fade />
@@ -32,7 +35,7 @@ const SearchBar = ({
               />
             </InputGroup>
           </Col>
-          <Col lg={4} sm={12} className="p-2">
+          <Col lg={3} sm={12} className="p-2">
             <InputGroup className="mb-3">
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faLocationDot} fade />
@@ -50,7 +53,7 @@ const SearchBar = ({
               </Form.Select>
             </InputGroup>
           </Col>
-          <Col lg={4} sm={12} className="p-2">
+          <Col lg={3} sm={12} className="p-2">
             <InputGroup className="mb-3">
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faSearch} fade />
@@ -63,6 +66,24 @@ const SearchBar = ({
                 {Object.keys(symptomToSpecialty).map((symptom, index) => (
                   <option key={index} value={symptom}>
                     {symptom}
+                  </option>
+                ))}
+              </Form.Select>
+            </InputGroup>
+          </Col>
+          <Col lg={3} sm={12} className="p-2">
+            <InputGroup className="mb-3">
+              <InputGroup.Text>
+                <FontAwesomeIcon icon={faSearch} fade />
+              </InputGroup.Text>
+              <Form.Select
+                value={selectedSpeciality}
+                onChange={(e) => setSelectedSpeciality(e.target.value)}
+              >
+                <option value="">Select Speciality</option>
+                {specialities.map((speciality, index) => (
+                  <option key={index} value={speciality}>
+                    {speciality}
                   </option>
                 ))}
               </Form.Select>

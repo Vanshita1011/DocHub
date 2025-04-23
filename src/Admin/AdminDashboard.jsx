@@ -189,7 +189,7 @@ export default function AdminDashboard() {
               <Col>
                 <h2 className="text-custom">Admin Dashboard</h2>
                 <p>{message}</p>
-                <Button className="btn btn-danger m-3" onClick={handleLogout}>
+                <Button className="btn btn-danger" onClick={handleLogout}>
                   Logout
                 </Button>
                 <Button

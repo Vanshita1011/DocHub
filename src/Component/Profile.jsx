@@ -18,6 +18,7 @@ import ScrollToTop from "react-scroll-to-top";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
+
 const Profile = () => {
   const { logout } = useUser();
   const navigate = useNavigate();
@@ -127,9 +128,6 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout();
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("user");
-    // localStorage.removeItem("userData");
     navigate("/signIn");
   };
 
@@ -309,10 +307,10 @@ const Profile = () => {
                       </Form.Group>
                     </Form>
                     <div className="d-flex justify-content-around mt-3">
-                      <Button variant="success" onClick={handleSave}>
+                      <Button variant="success w-50 mx-1" onClick={handleSave}>
                         Save
                       </Button>
-                      <Button variant="danger" onClick={handleLogout}>
+                      <Button variant="danger w-50" onClick={handleLogout}>
                         Logout
                       </Button>
                     </div>

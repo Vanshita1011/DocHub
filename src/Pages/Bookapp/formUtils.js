@@ -57,7 +57,7 @@ export const generateTimeSlots = (appointmentDate) => {
   const currentTime = new Date();
   const selectedDate = new Date(appointmentDate);
 
-  for (let hour = 8; hour <= 20; hour++) {
+  for (let hour = 9; hour <= 20; hour++) {
     ["00", "30"].forEach((minutes) => {
       const slotTime = new Date(selectedDate);
       slotTime.setHours(hour, minutes);

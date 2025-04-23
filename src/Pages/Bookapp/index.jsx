@@ -34,6 +34,8 @@ export default function Bookapp() {
   const [selectedSymptom, setSelectedSymptom] = useState(""); // State for selected symptom
   const [filteredHospitals, setFilteredHospitals] = useState([]);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const [specialities, setSpecialities] = useState([]);
   const [doctorsData, setDoctorsData] = useState([]); // State to store fetched doctor data
   const [loading, setLoading] = useState(true);
 
@@ -48,6 +50,9 @@ export default function Bookapp() {
         setFilteredDoctors(response.data);
         setFilteredHospitals([
           ...new Set(response.data.map((doctor) => doctor.hospital)),
+        ]);
+        setSpecialities([
+          ...new Set(response.data.map((doctor) => doctor.title)), // Extract specialities
         ]);
         setLoading(false);
       } catch (error) {
@@ -68,7 +73,11 @@ export default function Bookapp() {
     const matchesSymptom =
       selectedSymptom === "" ||
       doctor.title === symptomToSpecialty[selectedSymptom];
-    return matchesName && matchesHospital && matchesSymptom;
+    const matchesSpeciality =
+      selectedSpeciality === "" || doctor.title === selectedSpeciality;
+    return (
+      matchesName && matchesHospital && matchesSymptom && matchesSpeciality
+    );
   });
 
   useEffect(() => {
@@ -176,7 +185,10 @@ export default function Bookapp() {
             setSelectedHospital={setSelectedHospital}
             selectedSymptom={selectedSymptom}
             setSelectedSymptom={setSelectedSymptom}
+            selectedSpeciality={selectedSpeciality}
+            setSelectedSpeciality={setSelectedSpeciality}
             filteredHospitals={filteredHospitals}
+            specialities={specialities}
           />
           <div className="doctorcards p-5">
             <div className="abtheading text-center fw-bold">

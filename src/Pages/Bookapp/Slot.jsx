@@ -56,7 +56,7 @@ const Slot = ({ doctor }) => {
     const now = new Date();
     const today = now.toISOString().split("T")[0];
 
-    for (let hour = 8; hour <= 20; hour++) {
+    for (let hour = 9; hour <= 20; hour++) {
       const slotTime = new Date(selectedDate);
       slotTime.setHours(hour, 0, 0, 0);
       if (selectedDate !== today || slotTime > now) {
