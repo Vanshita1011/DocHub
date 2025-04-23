@@ -254,6 +254,7 @@ const Slot = ({ doctor }) => {
       <SuccessModal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}
+        message3="Please check the email for confirmation details"
       />
     </>
   );

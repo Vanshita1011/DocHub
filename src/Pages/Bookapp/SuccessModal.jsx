@@ -1,7 +1,14 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const SuccessModal = ({ show, onHide, title, message1, message2 }) => {
+const SuccessModal = ({
+  show,
+  onHide,
+  title,
+  message1,
+  message2,
+  message3,
+}) => {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
@@ -23,6 +30,7 @@ const SuccessModal = ({ show, onHide, title, message1, message2 }) => {
       <Modal.Body>
         <p>{message1 || "Your appointment is successfully booked!"}</p>
         <p>{message2 || "Thank You for booking an appointment!"}</p>
+        <p>{message3}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="success" onClick={onHide}>

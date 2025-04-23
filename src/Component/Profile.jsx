@@ -30,6 +30,7 @@ const Profile = () => {
   const [queries, setQueries] = useState([]);
   const [selectedQuery, setSelectedQuery] = useState(null);
   const [show, setShow] = useState(false);
+  const [showQueries, setShowQueries] = useState(false); // State to toggle queries visibility
 
   const [userData, setUserData] = useState({
     name: "",
@@ -483,25 +484,37 @@ const Profile = () => {
         </Modal.Footer>
       </Modal>
 
-      <Container className="mt-4">
-        <h3 className="text-center mb-4">Your Queries</h3>
-        <ListGroup>
-          {queries.map((query) => (
-            <ListGroup.Item
-              key={query._id}
-              action
-              onClick={() => handleShow(query)}
-            >
-              {query.query}
-              <Badge
-                bg={query.adminResponse ? "success" : "warning"}
-                className="ms-2"
-              >
-                {query.adminResponse ? "Responded" : "Pending"}
-              </Badge>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+      <Container className="mt-4 d-flex justify-content-center flex-column">
+        <Button
+          variant="info"
+          className="mb-3 "
+          onClick={() => setShowQueries(!showQueries)}
+        >
+          {showQueries ? "Hide Queries" : "Show Queries"}
+        </Button>
+
+        {showQueries && (
+          <>
+            <h3 className="text-center mb-4">Your Queries</h3>
+            <ListGroup>
+              {queries.map((query) => (
+                <ListGroup.Item
+                  key={query._id}
+                  action
+                  onClick={() => handleShow(query)}
+                >
+                  {query.query}
+                  <Badge
+                    bg={query.adminResponse ? "success" : "warning"}
+                    className="ms-2"
+                  >
+                    {query.adminResponse ? "Responded" : "Pending"}
+                  </Badge>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </>
+        )}
 
         {/* Modal for displaying query details */}
         <Modal show={show} onHide={() => setShow(false)} centered>

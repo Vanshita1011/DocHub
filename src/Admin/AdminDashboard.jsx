@@ -241,42 +241,50 @@ export default function AdminDashboard() {
                   </Col>
                 </Row>
 
-                <DoctorTable
-                  doctors={currentDoctors}
-                  onView={(id) => navigate(`/admin/appointments/${id}`)}
-                  onEdit={(doc) => {
-                    setShow(true);
-                    setEditingId(doc._id);
-                    setFormData(doc);
-                  }}
-                  onDelete={handleShowDeleteModal}
-                />
+                {filteredDoctors.length > 0 ? (
+                  <DoctorTable
+                    doctors={currentDoctors}
+                    onView={(id) => navigate(`/admin/appointments/${id}`)}
+                    onEdit={(doc) => {
+                      setShow(true);
+                      setEditingId(doc._id);
+                      setFormData(doc);
+                    }}
+                    onDelete={handleShowDeleteModal}
+                  />
+                ) : (
+                  <div className="text-center mt-4">
+                    <h4 className="text-danger">No doctors found</h4>
+                  </div>
+                )}
 
-                <div className="d-flex justify-content-center m-3 ">
-                  <Button
-                    variant="secondary"
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                    className="mx-1"
-                  >
-                    Previous
-                  </Button>
-                  <span className="align-self-center mx-2">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <Button
-                    variant="secondary"
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="mx-1"
-                  >
-                    Next
-                  </Button>
-                </div>
+                {filteredDoctors.length > 0 && (
+                  <div className="d-flex justify-content-center m-3 ">
+                    <Button
+                      variant="secondary"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                      disabled={currentPage === 1}
+                      className="mx-1"
+                    >
+                      Previous
+                    </Button>
+                    <span className="align-self-center mx-2">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <Button
+                      variant="secondary"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={currentPage === totalPages}
+                      className="mx-1"
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
               </Col>
             </Row>
 

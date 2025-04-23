@@ -251,6 +251,7 @@ export default function Bookapp() {
                     <SuccessModal
                       show={showSuccessModal}
                       onHide={() => setShowSuccessModal(false)}
+                      message3="Please check the email for confirmation details"
                     />
                   </div>
                 </Col>
