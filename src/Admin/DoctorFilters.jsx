@@ -16,18 +16,20 @@ export default function DoctorFilters({
 
   return (
     <Row className="my-3">
-      <Col md={4}>
+      <Col md={4} className="my-2">
         <Form.Control
           type="text"
           placeholder="Search by doctor name"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
+          style={{ border: "1px solid var(--secondary-color)" }}
         />
       </Col>
-      <Col md={4}>
+      <Col md={4} className="my-2">
         <Form.Select
           value={selectedHospital}
           onChange={(e) => onHospitalChange(e.target.value)}
+          style={{ border: "1px solid var(--secondary-color)" }}
         >
           <option value="">All Hospitals</option>
           {hospitals.map((hospital, idx) => (
@@ -37,10 +39,11 @@ export default function DoctorFilters({
           ))}
         </Form.Select>
       </Col>
-      <Col md={4}>
+      <Col md={4} className="my-2">
         <Form.Select
           value={selectedSpeciality}
           onChange={(e) => onSpecialityChange(e.target.value)}
+          style={{ border: "1px solid var(--secondary-color)" }}
         >
           <option value="">All Specialities</option>
           {titles.map((title, idx) => (

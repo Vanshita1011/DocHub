@@ -4,6 +4,8 @@ import { Form, Button, Alert, Container, Card } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
+import Footer from "../common/footer";
+import Header from "../common/Header";
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -33,6 +35,7 @@ export default function AdminLogin() {
 
   return (
     <>
+      <Header />
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
         <Card className="p-4 shadow-lg login-card">
           <h3 className="text-center mb-3 fw-bold">Admin Login</h3>
@@ -75,6 +78,7 @@ export default function AdminLogin() {
           </Form>
         </Card>
       </Container>
+      <Footer />
     </>
   );
 }

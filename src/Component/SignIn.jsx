@@ -90,6 +90,20 @@ const SignIn = () => {
     }
   };
 
+  const handleResendOtp = async () => {
+    try {
+      const response = await api.post("/auth/generate-otp", { email });
+      setTimer(120); // Restart the timer (2 minutes = 120 seconds)
+      setSuccessMessage("OTP resent successfully!");
+      setError("");
+    } catch (err) {
+      setError(
+        err.response?.data?.msg || "Failed to resend OTP. Please try again."
+      );
+      setSuccessMessage("");
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -195,9 +209,21 @@ const SignIn = () => {
                     required
                   />
                 </Form.Group>
-                <p className="text-danger text-center">
-                  Time remaining: {formatTime(timer)}
-                </p>
+                {timer > 0 ? (
+                  <p className="text-danger text-center">
+                    Time remaining: {formatTime(timer)}
+                  </p>
+                ) : (
+                  <p className="text-center">
+                    <Button
+                      variant="link"
+                      className="p-0 text-primary"
+                      onClick={handleResendOtp}
+                    >
+                      Resend OTP
+                    </Button>
+                  </p>
+                )}
               </>
             )}
 

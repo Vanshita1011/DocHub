@@ -18,6 +18,7 @@ import DoctorFilters from "./DoctorFilters";
 import DoctorTable from "./DoctorTable";
 import DoctorFormModal from "./DoctorFormModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import Sidebar from "../Component/Sidebar";
 
 export default function AdminDashboard() {
   const { logout } = useUser(); // Use the logout function
@@ -183,121 +184,135 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <>
-          <Container className="mt-5">
-            <ToastContainer position="top-right" autoClose={2000} />
-            <Row>
-              <Col>
-                <h2 className="text-custom">Admin Dashboard</h2>
-                <p>{message}</p>
-                <Button className="btn btn-danger" onClick={handleLogout}>
-                  Logout
-                </Button>
-                <Button
-                  variant="primary"
-                  className="m-3"
-                  onClick={() => navigate("/admin/queries")}
-                >
-                  View Queries
-                </Button>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h3>Manage Doctors</h3>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setShow(true);
-                    setEditingId(null);
-                  }}
-                >
-                  Add Doctor
-                </Button>
-              </Col>
-            </Row>
-
-            <DoctorFilters
-              searchQuery={searchQuery}
-              selectedHospital={selectedHospital}
-              selectedSpeciality={selectedSpeciality}
-              doctors={doctors}
-              onSearchChange={setSearchQuery}
-              onHospitalChange={setSelectedHospital}
-              onSpecialityChange={setSelectedSpeciality}
-              onClearFilters={() => {
-                setSearchQuery("");
-                setSelectedHospital("");
-                setSelectedSpeciality("");
+          <div className="d-flex">
+            <Sidebar />
+            <Container
+              className="mt-5"
+              style={{
+                width: "80%",
+                backgroundColor: "#f4f4f2",
+                borderRadius: "11px",
+                padding: "10px",
               }}
-            />
-            <Row>
-              <Col style={{ overflowX: "auto" }}>
-                <Row>
-                  <Col lg={10}>
-                    <h5 className="mt-2 text-custom">
-                      Showing {currentDoctors.length} of{" "}
-                      {filteredDoctors.length} doctors (Total: {doctors.length})
-                    </h5>
-                  </Col>
-                </Row>
-
-                {filteredDoctors.length > 0 ? (
-                  <DoctorTable
-                    doctors={currentDoctors}
-                    onView={(id) => navigate(`/admin/appointments/${id}`)}
-                    onEdit={(doc) => {
+            >
+              <ToastContainer position="top-right" autoClose={2000} />
+              <Row>
+                <Col>
+                  <h2 className="text-custom">Admin Dashboard</h2>
+                  <p>{message}</p>
+                  <Button className="btn btn-danger" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="m-3"
+                    onClick={() => navigate("/admin/queries")}
+                  >
+                    View Queries
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <h3>Manage Doctors</h3>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
                       setShow(true);
-                      setEditingId(doc._id);
-                      setFormData(doc);
+                      setEditingId(null);
                     }}
-                    onDelete={handleShowDeleteModal}
-                  />
-                ) : (
-                  <div className="text-center mt-4">
-                    <h4 className="text-danger">No doctors found</h4>
-                  </div>
-                )}
+                  >
+                    Add Doctor
+                  </Button>
+                </Col>
+              </Row>
 
-                {filteredDoctors.length > 0 && (
-                  <div className="d-flex justify-content-center m-3 ">
-                    <Button
-                      variant="secondary"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                      disabled={currentPage === 1}
-                      className="mx-1"
-                    >
-                      Previous
-                    </Button>
-                    <span className="align-self-center mx-2">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <Button
-                      variant="secondary"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                      }
-                      disabled={currentPage === totalPages}
-                      className="mx-1"
-                    >
-                      Next
-                    </Button>
-                  </div>
-                )}
-              </Col>
-            </Row>
+              <DoctorFilters
+                searchQuery={searchQuery}
+                selectedHospital={selectedHospital}
+                selectedSpeciality={selectedSpeciality}
+                doctors={doctors}
+                onSearchChange={setSearchQuery}
+                onHospitalChange={setSelectedHospital}
+                onSpecialityChange={setSelectedSpeciality}
+                onClearFilters={() => {
+                  setSearchQuery("");
+                  setSelectedHospital("");
+                  setSelectedSpeciality("");
+                }}
+              />
+              <Row>
+                <Col style={{ overflowX: "auto" }}>
+                  <Row>
+                    <Col lg={10}>
+                      <h5 className="mt-2 text-custom">
+                        Showing {currentDoctors.length} of{" "}
+                        {filteredDoctors.length} doctors (Total:{" "}
+                        {doctors.length})
+                      </h5>
+                    </Col>
+                  </Row>
 
-            {/* Modal for Adding/Editing Doctor */}
-            <DoctorFormModal
-              show={show}
-              onHide={() => setShow(false)}
-              onSubmit={handleSubmit}
-              formData={formData}
-              setFormData={setFormData}
-              editingId={editingId}
-            />
-          </Container>
+                  {filteredDoctors.length > 0 ? (
+                    <DoctorTable
+                      doctors={currentDoctors}
+                      onView={(id) => navigate(`/admin/appointments/${id}`)}
+                      onEdit={(doc) => {
+                        setShow(true);
+                        setEditingId(doc._id);
+                        setFormData(doc);
+                      }}
+                      onDelete={handleShowDeleteModal}
+                    />
+                  ) : (
+                    <div className="text-center mt-4">
+                      <h4 className="text-danger">No doctors found</h4>
+                    </div>
+                  )}
+
+                  {filteredDoctors.length > 0 && (
+                    <div className="d-flex justify-content-center m-3 ">
+                      <Button
+                        variant="secondary"
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(prev - 1, 1))
+                        }
+                        disabled={currentPage === 1}
+                        className="mx-1"
+                      >
+                        Previous
+                      </Button>
+                      <span className="align-self-center mx-2">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <Button
+                        variant="secondary"
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(prev + 1, totalPages)
+                          )
+                        }
+                        disabled={currentPage === totalPages}
+                        className="mx-1"
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  )}
+                </Col>
+              </Row>
+
+              {/* Modal for Adding/Editing Doctor */}
+              <DoctorFormModal
+                show={show}
+                onHide={() => setShow(false)}
+                onSubmit={handleSubmit}
+                formData={formData}
+                setFormData={setFormData}
+                editingId={editingId}
+              />
+            </Container>
+          </div>
         </>
       )}
 

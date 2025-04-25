@@ -20,6 +20,8 @@ import DoctorDashboard from "./Component/DoctorDashboard";
 import Layout from "./common/Layout";
 import BookingGuide from "./Component/BookingGuide";
 import AdminQueries from "./Admin/AdminQueries";
+import AddDoctor from "./Admin/AddDoctor";
+import AllUsers from "./Admin/AllUsers";
 
 export const allRoutes = createBrowserRouter([
   {
@@ -79,18 +81,7 @@ export const allRoutes = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
-      {
-        path: "admin-login",
-        element: <AdminLogin />,
-      },
-      {
-        path: "admin-dashboard",
-        element: <AdminDashboard />,
-      },
-      {
-        path: "admin/appointments/:doctorId",
-        element: <DoctorAppointments />,
-      },
+
       {
         path: "doctor-login",
         element: <DoctorLogin />,
@@ -103,10 +94,30 @@ export const allRoutes = createBrowserRouter([
         path: "doctor-dashboard",
         element: <DoctorDashboard />,
       },
-      {
-        path: "admin/queries",
-        element: <AdminQueries />,
-      },
     ],
+  },
+  {
+    path: "admin-login",
+    element: <AdminLogin />,
+  },
+  {
+    path: "admin-dashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "admin/appointments/:doctorId",
+    element: <DoctorAppointments />,
+  },
+  {
+    path: "admin/queries",
+    element: <AdminQueries />,
+  },
+  {
+    path: "admin/add-doctor",
+    element: <AddDoctor />,
+  },
+  {
+    path: "/admin/all-users",
+    element: <AllUsers />,
   },
 ]);
