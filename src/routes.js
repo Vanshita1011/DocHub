@@ -20,6 +20,7 @@ import DoctorDashboard from "./Component/DoctorDashboard";
 import Layout from "./common/Layout";
 import BookingGuide from "./Component/BookingGuide";
 import AdminQueries from "./Admin/AdminQueries";
+import OtpLogin from "./Component/OtpLogin";
 
 export const allRoutes = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ export const allRoutes = createBrowserRouter([
       {
         path: "admin/queries",
         element: <AdminQueries />,
+      },
+      {
+        path: "otp-login",
+        element: <OtpLogin />,
       },
     ],
   },
