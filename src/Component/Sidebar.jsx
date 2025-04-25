@@ -123,6 +123,13 @@ const SidebarContent = ({ handleLogout }) => {
           >
             <FaClone /> All User
           </Nav.Link>
+          <Nav.Link
+            to="/admin/queries"
+            as={NavLink}
+            className="d-flex align-items-center gap-2"
+          >
+            <FaClone /> All Queries
+          </Nav.Link>
         </Nav>
       </div>
 
