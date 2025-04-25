@@ -15,11 +15,14 @@ import { useUser } from "../UserContext";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false); // Track if OTP is sent
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const validateForm = () => {
     let isValid = true;
@@ -47,7 +50,26 @@ const SignIn = () => {
     setFieldErrors(errors);
     return isValid;
   };
-  const { setUser } = useUser();
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const response = await api.post("/auth/generate-otp", { email });
+      setOtpSent(true);
+      setSuccessMessage(response.data.msg);
+      setError("");
+    } catch (err) {
+      setError(
+        err.response?.data?.msg || "Failed to send OTP. Please try again."
+      );
+      setSuccessMessage("");
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -56,12 +78,24 @@ const SignIn = () => {
       return;
     }
 
-    try {
-      const response = await api.post("/auth/login", { email, password });
+    if (!otp) {
+      setError("OTP is required.");
+      return;
+    }
 
-      localStorage.setItem("token", response.data.token); // Save JWT token
-      localStorage.setItem("user", JSON.stringify({ email })); // Store user data
-      // Update the context immediately
+    try {
+      // Verify OTP
+      const otpResponse = await api.post("/auth/verify-otp", { email, otp });
+
+      // If OTP is valid, proceed with password login
+      const passwordResponse = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      // Save JWT token and user data
+      localStorage.setItem("token", passwordResponse.data.token);
+      localStorage.setItem("user", JSON.stringify({ email }));
       setUser({ email });
 
       setSuccessMessage("Login successful!");
@@ -74,7 +108,8 @@ const SignIn = () => {
       }, 1000);
     } catch (err) {
       setError(
-        err.response?.data?.msg || "Invalid credentials. Please try again."
+        err.response?.data?.msg ||
+          "Invalid credentials or OTP. Please try again."
       );
       setSuccessMessage("");
     }
@@ -90,7 +125,8 @@ const SignIn = () => {
           </p>
           {error && <Alert variant="danger">{error}</Alert>}
           {successMessage && <Alert variant="success">{successMessage}</Alert>}
-          <Form onSubmit={handleLogin}>
+
+          <Form onSubmit={otpSent ? handleLogin : handleSendOtp}>
             <Form.Group className="mb-3">
               <Form.Label className="text-dark">Email :</Form.Label>
               <Form.Control
@@ -128,16 +164,30 @@ const SignIn = () => {
               </InputGroup>
             </Form.Group>
 
+            {otpSent && (
+              <Form.Group className="mb-3">
+                <Form.Label className="text-dark">OTP :</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter OTP"
+                  required
+                />
+              </Form.Group>
+            )}
+
             <Button variant="primary" type="submit" className="w-100 mb-3">
-              Login
+              {otpSent ? "Login" : "Send OTP"}
             </Button>
-            <p className="text-center">
-              Don't have an account? <Link to="/signUp">Register here</Link>
-            </p>
-            <p className="text-center">
-              Are you a doctor? <Link to="/doctor-login">Sign in here</Link>
-            </p>
           </Form>
+
+          <p className="text-center">
+            Don't have an account? <Link to="/signUp">Register here</Link>
+          </p>
+          <p className="text-center">
+            Are you a doctor? <Link to="/doctor-login">Sign in here</Link>
+          </p>
         </Card>
       </Container>
     </>
