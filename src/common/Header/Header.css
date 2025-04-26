@@ -40,7 +40,7 @@
   display: block;
   transition: 0.2s linear;
 }
-.nav-link:hover::after {
+.UnderLine:hover::after {
   width: 100%;
 }
 

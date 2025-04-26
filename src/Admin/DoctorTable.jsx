@@ -1,3 +1,9 @@
+import {
+  faEye,
+  faPenToSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Table, Button } from "react-bootstrap";
 
@@ -34,21 +40,21 @@ export default function DoctorTable({ doctors, onEdit, onDelete, onView }) {
                 variant="secondary"
                 onClick={() => onView(doc._id)}
               >
-                View
+                <FontAwesomeIcon icon={faEye} />
               </Button>
               <Button
                 className="m-1"
                 variant="warning"
                 onClick={() => onEdit(doc)}
               >
-                Edit
+                <FontAwesomeIcon icon={faPenToSquare} />
               </Button>
               <Button
                 className="m-1"
                 variant="danger"
                 onClick={() => onDelete(doc._id)}
               >
-                Delete
+                <FontAwesomeIcon icon={faTrash} />
               </Button>
             </td>
           </tr>

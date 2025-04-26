@@ -165,3 +165,10 @@
     margin-top: 30px;
   }
 }
+
+@media (max-width: 992px) and (min-width: 769px) {
+  /* For tablet devices */
+  .sidebar {
+    width: 25%;
+  }
+}

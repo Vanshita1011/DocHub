@@ -73,10 +73,16 @@ export default function Header() {
         {/* Middle: Navigation Links */}
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mx-auto">
-            <Nav.Link as={NavLink} to="/" onClick={() => setExpanded(false)}>
+            <Nav.Link
+              className="UnderLine"
+              as={NavLink}
+              to="/"
+              onClick={() => setExpanded(false)}
+            >
               Home
             </Nav.Link>
             <Nav.Link
+              className="UnderLine"
               as={NavLink}
               to="/about-us"
               onClick={() => setExpanded(false)}
@@ -84,6 +90,7 @@ export default function Header() {
               About Us
             </Nav.Link>
             <Nav.Link
+              className="UnderLine"
               as={NavLink}
               to="/book-appoinment"
               onClick={() => setExpanded(false)}
@@ -91,6 +98,7 @@ export default function Header() {
               Book an Appointment
             </Nav.Link>
             <Nav.Link
+              className="UnderLine"
               as={NavLink}
               to="/blog"
               onClick={() => setExpanded(false)}
@@ -98,6 +106,7 @@ export default function Header() {
               Blog
             </Nav.Link>
             <Nav.Link
+              className="UnderLine"
               to="/contact-us"
               as={NavLink}
               onClick={() => setExpanded(false)}

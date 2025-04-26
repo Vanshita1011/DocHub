@@ -4,6 +4,9 @@ import api from "../axiosInterceptor";
 import { toast } from "react-toastify";
 import Sidebar from "../Component/Sidebar";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons"; // Import FontAwesome search icon
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]); // All users fetched from the backend
@@ -71,35 +74,49 @@ export default function AllUsers() {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Container className="mt-5" style={{ width: "80%" }}>
+      <Container
+        className="mt-5"
+        style={{
+          width: "80%",
+          background: " #f4f4f2",
+          borderRadius: "10px ",
+        }}
+      >
         <Row>
           <Col>
-            <h2 className="text-center mb-4">All Registered Users</h2>
-            <p className="text-center">
-              Total Registered Users: <strong>{users.length}</strong>
+            <h2 className="text-center mb-4 text-custom fw-bold p-3">
+              All Registered Users
+            </h2>
+            <p className="text-center fw-bolder text-soft">
+              Total Registered Users:{" "}
+              <strong className="text-soft">{users.length}</strong>
             </p>
 
             {/* Search Input */}
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-4 d-flex align-items-center w-25">
+              <FontAwesomeIcon icon={faSearch} className="me-2" />
               <Form.Control
                 type="text"
                 placeholder="Search by email"
                 value={search}
                 onChange={handleSearch}
+                style={{ flex: 1 }}
               />
             </Form.Group>
 
             {loading ? (
               <p className="text-center">Loading...</p>
+            ) : filteredUsers.length === 0 ? (
+              <p className="text-center">No user found.</p>
             ) : (
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Gender</th>
-                    <th>Actions</th>
+                    <th className="text-custom">#</th>
+                    <th className="text-custom">Email</th>
+                    <th className="text-custom">Phone Number</th>
+                    <th className="text-custom">Gender</th>
+                    <th className="text-custom">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -115,7 +132,8 @@ export default function AllUsers() {
                           size="sm"
                           onClick={() => handleShowModal(user._id)}
                         >
-                          Remove
+                          Remove {""}
+                          <FontAwesomeIcon icon={faTrash} />
                         </Button>
                       </td>
                     </tr>

@@ -56,7 +56,9 @@ const BookingGuide = () => {
           After booking, your appointment details will appear in your profile.
         </p>
         <Link to="/profile">
-          <Button variant="outline-info">View Profile</Button>
+          <Button variant="outline-info" style={{ width: "37%" }}>
+            View Profile
+          </Button>
         </Link>
       </div>
     </Container>

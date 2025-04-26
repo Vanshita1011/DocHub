@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Table, Container, Row, Col, Button } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Row,
+  Col,
+  Button,
+  Card,
+  Badge,
+} from "react-bootstrap";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 
@@ -8,14 +16,14 @@ export default function DoctorAppointments() {
   const { doctorId } = useParams();
   const [appointments, setAppointments] = useState([]);
   const [slots, setSlots] = useState([]);
-  const [doctorName, setDoctorName] = useState(""); // State for doctor's name
+  const [doctorName, setDoctorName] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await api.get(`/doctors/${doctorId}`); // Fetch doctor details
-        setDoctorName(response.data.name); // Set the doctor's name
+        const response = await api.get(`/doctors/${doctorId}`);
+        setDoctorName(response.data.name);
       } catch (error) {
         console.error("Error fetching doctor details:", error);
       }
@@ -63,31 +71,23 @@ export default function DoctorAppointments() {
       }
     };
 
-    fetchDoctorDetails(); // Fetch doctor's name
+    fetchDoctorDetails();
     fetchAppointments();
     fetchSlots();
   }, [doctorId]);
 
   const mergedData = [...appointments, ...slots].sort((a, b) => {
-    const now = new Date(); // Get the current date and time
-
+    const now = new Date();
     const dateA = new Date(`${a.appointmentDate}T${a.timeSlot}`);
     const dateB = new Date(`${b.appointmentDate}T${b.timeSlot}`);
-
-    const isCompletedA = dateA < now; // Check if appointment is completed
+    const isCompletedA = dateA < now;
     const isCompletedB = dateB < now;
-
-    // Sort by completed status (Completed last)
     if (isCompletedA !== isCompletedB) {
-      return isCompletedA ? 1 : -1; // Move completed to the bottom
+      return isCompletedA ? 1 : -1;
     }
-
-    // If both are upcoming or both completed, sort by date
     if (dateA - dateB !== 0) {
-      return dateA - dateB; // Sort by nearest date first
+      return dateA - dateB;
     }
-
-    // If same date, sort by time
     return a.timeSlot.localeCompare(b.timeSlot);
   });
 
@@ -95,54 +95,77 @@ export default function DoctorAppointments() {
     <>
       {loading ? (
         <div
-          className="d-flex justify-content-center  align-items-center"
+          className="d-flex justify-content-center align-items-center"
           style={{ height: "80vh" }}
         >
           <BeatLoader color="#6c63ff" />
         </div>
       ) : (
-        <Container className="mt-5">
-          <Row>
-            <Col>
-              <h2>Appointments and Slots for {doctorName}</h2>{" "}
-              {/* Updated heading */}
-              <Table striped bordered hover responsive className="mt-3">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Time Slot</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mergedData.map((item) => (
-                    <tr key={item._id}>
-                      <td>{item.appointmentDate}</td>
-                      <td>{item.timeSlot}</td>
-                      <td>{item.name}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.age}</td>
-                      <td>{item.gender}</td>
-                      <td
-                        className={
-                          item.status === "Completed"
-                            ? "text-success"
-                            : "text-danger"
-                        }
-                      >
-                        {item.status}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Button variant="secondary" onClick={() => window.history.back()}>
-                Back
-              </Button>
+        <Container
+          fluid
+          style={{
+            background: "linear-gradient(to right,rgb(152, 197, 242), #ffffff)",
+            minHeight: "100vh",
+            padding: "2rem",
+          }}
+        >
+          <Row className="justify-content-center">
+            <Col md={10}>
+              <Card className="shadow-sm border-0">
+                <Card.Body>
+                  <h2
+                    className="mb-4 text-center"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Appointments & Slots for {doctorName}
+                  </h2>
+                  <Table hover responsive className="align-middle">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Date</th>
+                        <th>Time Slot</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mergedData.map((item) => (
+                        <tr key={item._id}>
+                          <td>{item.appointmentDate}</td>
+                          <td>{item.timeSlot}</td>
+                          <td>{item.name}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.age}</td>
+                          <td>{item.gender}</td>
+                          <td>
+                            <Badge
+                              bg={
+                                item.status === "Completed"
+                                  ? "success"
+                                  : "warning"
+                              }
+                              pill
+                            >
+                              {item.status}
+                            </Badge>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                  <div className="d-flex justify-content-center mt-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => window.history.back()}
+                    >
+                      &larr; Back
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>

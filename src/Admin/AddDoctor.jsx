@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import api from "../axiosInterceptor";
 import Sidebar from "../Component/Sidebar";
 
@@ -40,7 +41,9 @@ export default function AddDoctor() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("Doctor added successfully!");
-      navigate("/admin-dashboard"); // Redirect back to the dashboard
+      setTimeout(() => {
+        navigate("/admin-dashboard"); // Redirect back to the dashboard after 2 seconds
+      }, 2000);
     } catch (error) {
       toast.error("Error adding doctor");
     }
@@ -49,10 +52,20 @@ export default function AddDoctor() {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Container className="mt-5" style={{ width: "80%" }}>
+      <Container
+        className="mt-5 p-3 "
+        style={{
+          width: "80%",
+          background: "linear-gradient(to bottom, #028885, #007c9d) ",
+          borderRadius: "10px",
+        }}
+      >
+        <ToastContainer position="top-right" autoClose={3000} />
         <Row>
           <Col>
-            <h2 className="text-custom">Add Doctor</h2>
+            <h2 className="text-light d-flex justify-content-center">
+              Add Doctor
+            </h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>

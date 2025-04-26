@@ -48,12 +48,21 @@ const AdminQueries = () => {
   return (
     <div className="d-flex">
       <Sidebar />
-      <Container className="mt-4" style={{ width: "80%" }}>
+      <Container
+        className="mt-4"
+        style={{
+          width: "80%",
+          backgroundColor: " #f4f4f2",
+          borderRadius: "10PX",
+        }}
+      >
         <ToastContainer position="top-right" autoClose={3000} />
         {/* <Button variant="secondary" onClick={() => window.history.back()}>
         Back
       </Button> */}
-        <h2 className="text-center mb-4">Admin Queries</h2>
+        <h2 className="text-center mb-4 text-custom fw-bold p-3">
+          All Queries
+        </h2>
         <Row>
           {queries.map((query) => (
             <Col md={6} lg={4} key={query._id} className="mb-4">

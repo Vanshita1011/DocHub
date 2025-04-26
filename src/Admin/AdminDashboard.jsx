@@ -19,6 +19,12 @@ import DoctorTable from "./DoctorTable";
 import DoctorFormModal from "./DoctorFormModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import Sidebar from "../Component/Sidebar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLeftLong,
+  faRightLong,
+  faSquareCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminDashboard() {
   const { logout } = useUser(); // Use the logout function
@@ -198,9 +204,11 @@ export default function AdminDashboard() {
               <ToastContainer position="top-right" autoClose={2000} />
               <Row>
                 <Col>
-                  <h2 className="text-custom">Admin Dashboard</h2>
-                  <p>{message}</p>
-                  <Button className="btn btn-danger" onClick={handleLogout}>
+                  <h2 className="text-custom text-center fs-2 fw-bold">
+                    Admin Dashboard
+                  </h2>
+                  <p className="text-center">{message}</p>
+                  {/* <Button className="btn btn-danger" onClick={handleLogout}>
                     Logout
                   </Button>
                   <Button
@@ -209,13 +217,13 @@ export default function AdminDashboard() {
                     onClick={() => navigate("/admin/queries")}
                   >
                     View Queries
-                  </Button>
+                  </Button> */}
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <h3>Manage Doctors</h3>
-                  <Button
+                  <h3 className="text-soft">Manage Doctors</h3>
+                  {/* <Button
                     variant="primary"
                     onClick={() => {
                       setShow(true);
@@ -223,7 +231,7 @@ export default function AdminDashboard() {
                     }}
                   >
                     Add Doctor
-                  </Button>
+                  </Button> */}
                 </Col>
               </Row>
 
@@ -280,7 +288,7 @@ export default function AdminDashboard() {
                         disabled={currentPage === 1}
                         className="mx-1"
                       >
-                        Previous
+                        <FontAwesomeIcon icon={faLeftLong} />
                       </Button>
                       <span className="align-self-center mx-2">
                         Page {currentPage} of {totalPages}
@@ -295,7 +303,7 @@ export default function AdminDashboard() {
                         disabled={currentPage === totalPages}
                         className="mx-1"
                       >
-                        Next
+                        <FontAwesomeIcon icon={faRightLong} />
                       </Button>
                     </div>
                   )}

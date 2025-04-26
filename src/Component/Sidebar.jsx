@@ -9,9 +9,15 @@ import {
   FaUserPlus,
   FaIcons,
   FaGlobe,
+  FaFontAwesome,
 } from "react-icons/fa";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClipboardQuestion,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
   const { logout } = useUser();
@@ -30,23 +36,23 @@ const Sidebar = () => {
   };
 
   // Close sidebar on clicking outside
-  // useEffect(() => {
-  //   const handleOutsideClick = (e) => {
-  //     if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-  //       handleClose();
-  //     }
-  //   };
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        handleClose();
+      }
+    };
 
-  //   if (show) {
-  //     document.addEventListener("mousedown", handleOutsideClick);
-  //   } else {
-  //     document.removeEventListener("mousedown", handleOutsideClick);
-  //   }
+    if (show) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleOutsideClick);
-  //   };
-  // }, [show]);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [show]);
 
   return (
     <>
@@ -63,7 +69,7 @@ const Sidebar = () => {
       {/* Sidebar for larger screens */}
       <div
         className="d-none d-md-block sidebar bg-white border-end p-3"
-        style={{ width: "15%", height: "100vh", position: "fixed" }}
+        style={{ width: "17%", height: "100vh", position: "fixed" }}
       >
         <SidebarContent handleLogout={handleLogout} />
       </div>
@@ -75,11 +81,12 @@ const Sidebar = () => {
         responsive="md"
         backdrop={false}
         style={{ width: "250px" }}
-        ref={sidebarRef}
       >
-        <Offcanvas.Body>
-          <SidebarContent handleLogout={handleLogout} />
-        </Offcanvas.Body>
+        <div ref={sidebarRef}>
+          <Offcanvas.Body>
+            <SidebarContent handleLogout={handleLogout} />
+          </Offcanvas.Body>
+        </div>
       </Offcanvas>
     </>
   );
@@ -114,7 +121,7 @@ const SidebarContent = ({ handleLogout }) => {
             as={NavLink}
             className="d-flex align-items-center gap-2"
           >
-            <FaFont /> Add Doctor
+            <FontAwesomeIcon icon={faUserPlus} /> Add Doctor
           </Nav.Link>
           <Nav.Link
             to="/admin/all-users"
@@ -128,7 +135,8 @@ const SidebarContent = ({ handleLogout }) => {
             as={NavLink}
             className="d-flex align-items-center gap-2"
           >
-            <FaClone /> All Queries
+            <FontAwesomeIcon icon={faClipboardQuestion} />
+            All Queries
           </Nav.Link>
         </Nav>
       </div>
@@ -141,27 +149,6 @@ const SidebarContent = ({ handleLogout }) => {
             className="d-flex align-items-center gap-2"
           >
             <FaSignInAlt /> LogOut
-          </Nav.Link>
-          <Nav.Link
-            href="/register"
-            className="d-flex align-items-center gap-2"
-          >
-            <FaUserPlus /> Register
-          </Nav.Link>
-        </Nav>
-      </div>
-
-      <div className="mb-3">
-        <small className="text-muted">EXTRA</small>
-        <Nav className="flex-column">
-          <Nav.Link href="/icons" className="d-flex align-items-center gap-2">
-            <FaIcons /> Icons
-          </Nav.Link>
-          <Nav.Link
-            href="/sample-page"
-            className="d-flex align-items-center gap-2"
-          >
-            <FaGlobe /> Sample Page
           </Nav.Link>
         </Nav>
       </div>

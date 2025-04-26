@@ -21,7 +21,7 @@ export default function About() {
         </div>
         <section className="about-area-two">
           <Container>
-            <Row className="justify-content-center align-items-center">
+            <Row className="justify-content-center ">
               <Col lg={6} className="about-img">
                 <img src="images/about-img.jpg" alt="img" className="mw-100" />
               </Col>
