@@ -18,6 +18,8 @@ import ScrollToTop from "react-scroll-to-top";
 import { BeatLoader } from "react-spinners";
 import api from "../axiosInterceptor";
 import { useUser } from "../UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
   const { logout } = useUser();
@@ -484,13 +486,14 @@ const Profile = () => {
         </Modal.Footer>
       </Modal>
 
-      <Container className="mt-4 d-flex justify-content-center flex-column">
+      <Container className="mt-4 ">
         <Button
           variant="info"
           className="mb-3 "
           onClick={() => setShowQueries(!showQueries)}
         >
-          {showQueries ? "Hide Queries" : "Show Queries"}
+          {showQueries ? "Hide Queries" : "Show Queries"} {"  "}
+          <FontAwesomeIcon icon={showQueries ? faEyeSlash : faEye} />
         </Button>
 
         {showQueries && (
