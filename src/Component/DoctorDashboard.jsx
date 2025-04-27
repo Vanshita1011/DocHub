@@ -114,19 +114,24 @@ export default function DoctorDashboard() {
     return appointmentDateTime < new Date();
   };
   const mergedData = [...appointments, ...slots].sort((a, b) => {
-    // Convert date strings to Date objects for accurate comparison
-    const dateA = new Date(a.appointmentDate);
-    const dateB = new Date(b.appointmentDate);
+    const isPastA = isPastAppointment(a.appointmentDate, a.timeSlot);
+    const isPastB = isPastAppointment(b.appointmentDate, b.timeSlot);
 
-    // If dates are different, sort by date (earliest first)
-    if (dateA - dateB !== 0) {
-      return dateA - dateB;
+    // Prioritize upcoming appointments (isPast = false)
+    if (isPastA !== isPastB) {
+      return isPastA - isPastB; // false (upcoming) comes before true (completed)
     }
 
-    // If dates are the same, sort by time (earliest first)
+    // If both are in the same category (upcoming or completed), sort by date
+    const dateA = new Date(a.appointmentDate);
+    const dateB = new Date(b.appointmentDate);
+    if (dateA - dateB !== 0) {
+      return dateA - dateB; // Earliest date first
+    }
+
+    // If dates are the same, sort by time
     const timeA = a.timeSlot.includes(":") ? a.timeSlot : `00:${a.timeSlot}`;
     const timeB = b.timeSlot.includes(":") ? b.timeSlot : `00:${b.timeSlot}`;
-
     return new Date(`1970-01-01T${timeA}`) - new Date(`1970-01-01T${timeB}`);
   });
   return (
